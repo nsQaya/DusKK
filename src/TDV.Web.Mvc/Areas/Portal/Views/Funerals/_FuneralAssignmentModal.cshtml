@@ -1,0 +1,37 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using TDV.Burial;
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Funerals
+@model FuneralAssignmentModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("FuneralAssignment")))
+
+<div class="modal-body">
+    <div id="FuneralAssignmentTab">
+        <form name="FuneralInformationsForm" role="form" novalidate class="form-validation">
+            <div class="my-3">
+                <label class="form-label" for="companyId">@L("Company")</label>
+                @Html.DropDownList("companyId", new SelectList(Model.CompanyList,"Id","DisplayName", ""),@L("SelectACompany"), new { @class = "form-control" , @required="required" })
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="employeeId">@L("Employee")</label>
+                <select class="form-control" name="employeeId" id="employeeId">
+                    <option value="">@L("SelectAEmployee")</option>
+                </select>
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="vehicleId">@L("Vehicle")</label>
+                <select class="form-control" name="vehicleId" id="vehicleId">
+                    <option value="">@L("SelectAVehicle")</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

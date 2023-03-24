@@ -1,0 +1,75 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Airports
+@model CreateOrEditAirportModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditAirport")) : L("CreateNewAirport")))
+
+<div class="modal-body">
+    <div id="AirportInformationsTab">
+        <form name="AirportInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Airport.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="countryId">@L("Country")</label>
+                @Html.DropDownList("countryId", new SelectList(Model.AirportCountryList,"Id","DisplayName", (Model.IsEditMode ? Model.Airport.CountryId.ToString() : "")),@L("SelectACountry"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="cityId">@L("City")</label>
+                @{
+                    if (Model.AirportCityList == null)
+                    {
+                        <select class="form-control select2" id="cityId" name="cityId" required="required">
+                            <option value="">@L("SelectACountry")</option>
+                        </select>
+                    }
+                    else
+                    {
+                        @Html.DropDownList("cityId", new SelectList(Model.AirportCityList, "Id", "DisplayName", (Model.IsEditMode ? Model.Airport.CityId.ToString() : "")), @L("SelectACity"), new { @class = "form-control select2", @required = "required" })
+                        ;
+                    }
+                }
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Airport_Code">@L("Code")</label>
+                <input class="form-control" id="Airport_Code" value="@Model.Airport.Code" type="text" name="code" required maxlength="@TDV.Flight.AirportConsts.MaxCodeLength" minlength="@TDV.Flight.AirportConsts.MinCodeLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Airport_Name">@L("Name")</label>
+                <input class="form-control" id="Airport_Name" value="@Model.Airport.Name" type="text" name="name" required maxlength="@TDV.Flight.AirportConsts.MaxNameLength" minlength="@TDV.Flight.AirportConsts.MinNameLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Airport_Description">@L("Description")</label>
+                <input class="form-control" id="Airport_Description" value="@Model.Airport.Description" type="text" name="description" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Airport_Order">@L("Order")</label>
+                <input class="form-control m-input" id="Airport_Order" value="@Model.Airport.Order.ToString(CultureInfo.InvariantCulture)" type="number" name="order" />
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="Airport_Description">@L("AirportRegion")</label>
+                <select id="Airport_Regions_Select"></select>
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="Airport_IsActive" name="isActive" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.Airport.IsActive ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsActive")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

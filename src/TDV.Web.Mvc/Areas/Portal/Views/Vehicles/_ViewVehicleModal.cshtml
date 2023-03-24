@@ -1,0 +1,59 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Vehicles
+@model VehicleViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="VehicleInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Plate") :</h6>
+                @Model.Vehicle.Plate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Description") :</h6>
+                @Model.Vehicle.Description
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("EndExaminationDate") :</h6>
+                @Model.Vehicle.EndExaminationDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("EndInsuranceDate") :</h6>
+                @Model.Vehicle.EndInsuranceDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("EndGuarantyDate") :</h6>
+                @Model.Vehicle.EndGuarantyDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Capactiy") :</h6>
+                @Model.Vehicle.Capactiy
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Year") :</h6>
+                @Model.Vehicle.Year
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Brand") :</h6>
+                @Model.Vehicle.Brand
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("TrackNo") :</h6>
+                @Model.Vehicle.TrackNo
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("Company")) @L("DisplayProperty") :</h6>
+                @Model.CompanyDisplayProperty
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

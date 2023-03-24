@@ -1,0 +1,47 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Airports
+@model AirportViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="AirportInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Code") :</h6>
+                @Model.Airport.Code
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Name") :</h6>
+                @Model.Airport.Name
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Description") :</h6>
+                @Model.Airport.Description
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Order") :</h6>
+                @Model.Airport.Order
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("IsActive") :</h6>
+                @Model.Airport.IsActive
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("Country")) @L("DisplayProperty") :</h6>
+                @Model.CountryDisplayProperty
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("City")) @L("DisplayProperty") :</h6>
+                @Model.CityDisplayProperty
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

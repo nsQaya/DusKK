@@ -1,0 +1,61 @@
+{
+  "IsRegenerate": false,
+  "MenuPosition": null,
+  "RelativeNamespace": "Flight",
+  "EntityName": "AirportRegion",
+  "EntityNamePlural": "AirportRegions",
+  "TableName": "AirportRegions",
+  "PrimaryKeyType": "int",
+  "BaseClass": "FullAuditedEntity",
+  "EntityHistory": false,
+  "AutoMigration": true,
+  "UpdateDatabase": true,
+  "CreateUserInterface": false,
+  "CreateViewOnly": false,
+  "CreateExcelExport": false,
+  "IsNonModalCRUDPage": false,
+  "IsMasterDetailPage": false,
+  "PagePermission": {
+    "Host": false,
+    "Tenant": false
+  },
+  "Properties": [],
+  "NavigationProperties": [
+    {
+      "Namespace": "TDV.Flight",
+      "ForeignEntityName": "Airport",
+      "IdType": "int",
+      "IsNullable": false,
+      "PropertyName": "AirportId",
+      "DuplicationNumber": 0,
+      "RelationType": "single",
+      "ViewType": "LookupTable",
+      "DisplayPropertyNameInfos": {
+        "MergeFormat": "{0} {1}",
+        "DisplayPropertyNames": [
+          "Code",
+          "Name"
+        ]
+      }
+    },
+    {
+      "Namespace": "TDV.Location",
+      "ForeignEntityName": "Region",
+      "IdType": "int",
+      "IsNullable": false,
+      "PropertyName": "RegionId",
+      "DuplicationNumber": 0,
+      "RelationType": "single",
+      "ViewType": "LookupTable",
+      "DisplayPropertyNameInfos": {
+        "MergeFormat": "{0}",
+        "DisplayPropertyNames": [
+          "Name"
+        ]
+      }
+    }
+  ],
+  "NavigationPropertyOneToManyTables": [],
+  "EnumDefinitions": [],
+  "DbContext": null
+}

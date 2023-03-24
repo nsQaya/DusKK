@@ -1,0 +1,208 @@
+﻿@using TDV.Web.Areas.Portal.Startup
+@using TDV.Web.Areas.Portal.Models.Funerals
+@model FuneralViewModel
+@using TDV.Web.TagHelpers
+@{
+ViewBag.CurrentPageName = PortalPageNames.Common.Funerals;
+}
+@section Scripts
+{
+<script abp-src="/view-resources/Areas/Portal/Views/Funerals/CreateOrEdit.js" asp-append-version="true"></script>
+}
+
+@{
+var breadcrumbs = new List<BreadcrumbItem>()
+    {
+    new BreadcrumbItem("/Portal/Funerals", L("Funerals")),
+    new BreadcrumbItem(L("Details")),
+    };
+    }
+    <abp-page-subheader title='@L("Details")' breadcrumbs="breadcrumbs">
+    </abp-page-subheader>
+
+    <div class="@(await GetContainerClass())">
+        <div class=" card card-custom gutter-b">
+            <div class=" card-body">
+                <div id="FuneralInformationsTab">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <h6>@L("TransferNo") :</h6>
+                            @Model.Funeral.TransferNo
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("MemberNo") :</h6>
+                            @Model.Funeral.MemberNo
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Name") :</h6>
+                            @Model.Funeral.Name
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Surname") :</h6>
+                            @Model.Funeral.Surname
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("TcNo") :</h6>
+                            @Model.Funeral.TcNo
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("PassportNo") :</h6>
+                            @Model.Funeral.PassportNo
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("LadingNo") :</h6>
+                            @Model.Funeral.LadingNo
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Status") :</h6>
+                            @L("Enum_FuneralStatus_" + (int)Model.Funeral.Status)
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("OperationDate") :</h6>
+                            @Model.Funeral.OperationDate
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <h6>(@L("FuneralType")) @L("Description") :</h6>
+                            @Model.FuneralTypeDescription
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("Contact")) @L("DisplayProperty") :</h6>
+                            @Model.ContactDisplayProperty
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("OrganizationUnit")) @L("DisplayName") :</h6>
+                            @Model.OwnerOrganizationUnitDisplayName
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("OrganizationUnit")) @L("DisplayName") :</h6>
+                        @Model.GiverOrganizationUnitDisplayName
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("OrganizationUnit")) @L("DisplayName") :</h6>
+                        @Model.ContractorOrganizationUnitDisplayName
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("User")) @L("Name") :</h6>
+                            @Model.UserName
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("FuneralPackage")) @L("Code") :</h6>
+                            @Model.FuneralPackageCode
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("Contract")) @L("Formule") :</h6>
+                            @Model.ContractFormule
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("Vehicle")) @L("Plate") :</h6>
+                            @Model.VehiclePlate
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-custom gutter-b mt-3">
+            <div class="card-body">
+                <custom-tabs>
+                    <custom-tab name="Adres Bilgileri" icon="flaticon2-location">
+                    <div class="row">
+                        <div class="col col-md-6">
+                            <label class="form-label" for="countryId">@L("Country")</label>
+                            <select class="form-control select2" disabled>
+                                <option value="" disabled selected>@Model.CountryDisplayName</option>
+                            </select>
+                        </div>
+                        <div class="col col-md-6">
+                            <label class="form-label" for="cityId">@L("City")</label>
+                            <select class="form-control select2" disabled>
+                                <option value="" disabled selected>@Model.CityDisplayName</option>
+                            </select>
+                        </div>
+                        <div class="my-3">
+                            <label class="form-label" for="districtId">@L("District")</label>
+                            <select class="form-control select2" disabled>
+                                <option value="" disabled selected>@Model.DistrictDisplayName</option>
+                            </select>
+                        </div>
+                        <div class="my-3">
+                            <label class="form-label" for="quarterId">@L("Quarter")</label>
+                            <select class="form-control select2" disabled>
+                                <option value="" disabled selected>@Model.QuarterDisplayName</option>
+                            </select>
+                        </div>
+                        <div class="col col-12">
+                            <label class="form-label" for="Funeral_Address_Region">@L("Region")</label>
+                            <input class="form-control" id="Funeral_Address_Region" type="text" disabled value="@Model.RegionDisplayName"/>
+                        </div>
+                        <div class="col col-12 my-3">
+                            <label class="form-label" for="Funeral_Address_Address">@L("Address")</label>
+                            <textarea class="form-control" disabled>@Model.Funeral.Address?.Address</textarea>
+                        </div>
+                        <div class="col col-12 my-3">
+                            <label class="form-label" for="Funeral_Address_Description">@L("Description")</label>
+                            <textarea class="form-control" disabled> @Model.Funeral.Address?.Description </textarea>
+                        </div>
+                    </div>
+                    </custom-tab>
+                    <custom-tab name="Belgeler" icon="flaticon2-document">
+                        <table id="FuneralDocumentsTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                            <thead>
+                                <tr>
+                                    <th>@L("Type")</th>
+                                    <th>@L("Show")</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               @{
+                                   foreach (var document in Model.Funeral.Documents)
+                                   {
+                                    <tr>
+                                        <td>@document.Type</td>
+                                        <td><a href="@("https://ymticenaze.blob.core.windows.net"+document.Path)" target="_blank">Göster</a></td>
+                                    </tr>
+                                }
+                               }
+                            </tbody>
+                        </table>
+                    </custom-tab>
+                    <custom-tab name="Uçuş Bilgileri" icon="flaticon-paper-plane-1">
+                        <div class="row">
+                            <div class="col col-md-6">
+                                <label class="form-label" for="airlineCompanyId">@L("AirlineCompany")</label>
+                                <select class="form-control select2" disabled>
+                                    <option value="" disabled selected>@Model.AirlineCompanyDisplayName</option>
+                                </select>
+                            </div>
+                            <div class="col col-md-6">
+                                <label class="form-label" for="FuneralFlight_Code">@L("Code")</label>
+                                <input class="form-control" type="text" disabled value="@Model.Funeral.Flight?.Code"/>
+                            </div>
+                            <div class="col col-md-6">
+                                <label class="form-label" for="liftOffAirportId">@L("LiftOff") @L("Airport")</label>
+                                <select class="form-control select2" disabled>
+                                    <option value="" disabled selected>@Model.LiftOffAirportDisplayName</option>
+                                </select>
+                            </div>
+                            <div class="col col-md-6">
+                                <label class="form-label" for="countryId">@L("Landing") @L("Airport")</label>
+                                <select class="form-control select2" disabled>
+                                    <option value="" disabled selected>@Model.LandingAirportDisplayName</option>
+                                </select>
+                            </div>
+
+                            <div class="col col-6 my-3">
+                                <label class="form-label" for="flight_LiftOffDate">@L("LiftOffDate")</label>
+                                <input class="form-control m-input date-picker" value="@Model.Funeral.Flight?.LiftOffDate" type="text"  disabled/>
+                            </div>
+                            <div class="col col-6 my-3">
+                                <label class="form-label" for="flight_LandingDate">@L("LandingDate")</label>
+                            <input class="form-control m-input date-picker" value="@Model.Funeral.Flight?.LandingDate" type="text" disabled />
+                            </div>
+                        </div>
+                    </custom-tab>
+                </custom-tabs>
+            </div>
+        </div>
+    </div>

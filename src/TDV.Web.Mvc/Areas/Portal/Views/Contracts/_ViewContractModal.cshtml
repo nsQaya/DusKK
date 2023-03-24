@@ -1,0 +1,43 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Contracts
+@model ContractViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="ContractInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Formule") :</h6>
+                @Model.Contract.Formule
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("StartDate") :</h6>
+                @Model.Contract.StartDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("EndDate") :</h6>
+                @Model.Contract.EndDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("CurrencyType") :</h6>
+                @L("Enum_CurrencyType_" + (int)Model.Contract.CurrencyType)
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("Region")) @L("Name") :</h6>
+                @Model.RegionName
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Company")) @L("DisplayProperty") :</h6>
+                @Model.CompanyDisplayProperty
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

@@ -1,0 +1,58 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Contacts
+@model CreateOrEditContactModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditContact")) : L("CreateNewContact")))
+
+<div class="modal-body">
+    <div id="ContactInformationsTab">
+        <form name="ContactInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Contact.Id" />
+            <input type="hidden" name="netsisDetail[Id]" value="@Model.Contact?.NetsisDetail?.Id"/>
+            <input type="hidden" name="netsisDetail[ContactId]" value="@Model.Contact.Id"/>
+            }
+
+            <div class="my-3">
+                <div class="row">
+                    <div class="col-6">
+                        <label class="form-label" for="Contact_Name">@L("Name")</label>
+                        <input class="form-control" id="Contact_Name" value="@Model.Contact.Name" type="text" name="name" required maxlength="@TDV.Communication.ContactConsts.MaxNameLength" minlength="@TDV.Communication.ContactConsts.MinNameLength" />
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" for="Contact_Surname">@L("Surname")</label>
+                        <input class="form-control" id="Contact_Surname" value="@Model.Contact.Surname" type="text" name="surname" required maxlength="@TDV.Communication.ContactConsts.MaxSurnameLength" minlength="@TDV.Communication.ContactConsts.MinSurnameLength" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Contact_IdentifyNo">@L("IdentifyNo")</label>
+                <input class="form-control" id="Contact_IdentifyNo" value="@Model.Contact.IdentifyNo" type="text" name="identifyNo" maxlength="@TDV.Communication.ContactConsts.MaxIdentifyNoLength" minlength="@TDV.Communication.ContactConsts.MinIdentifyNoLength" />
+            </div>
+
+            <div class="card card-body">
+                <label class="form-label" for="Contact_NetsisDetail">@L("ContactNetsisDetail")</label>
+                <div class="my-3">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label" for="Contact_NetsisDetail_NetsisNo">@L("NetsisNo")</label>
+                            <input class="form-control" id="Contact_NetsisDetail_NetsisNo" value="@Model.Contact?.NetsisDetail?.NetsisNo" type="text" name="netsisDetail[netsisNo]"  />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="Contact_NetsisDetail_RegistryNo">@L("RegistryNo")</label>
+                            <input class="form-control" id="Contact_NetsisDetail_RegistryNo" value="@Model.Contact?.NetsisDetail?.RegistryNo" type="text" name="netsisDetail[registryNo]" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

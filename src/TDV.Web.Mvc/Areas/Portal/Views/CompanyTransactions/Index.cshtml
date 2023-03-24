@@ -1,0 +1,186 @@
+﻿@using TDV.Authorization
+@using TDV.Web.Areas.Portal.Models.CompanyTransactions
+@using TDV.Web.Areas.Portal.Startup
+@model CompanyTransactionsViewModel
+@{
+ViewBag.CurrentPageName = PortalPageNames.Common.CompanyTransactions;
+}
+@section Scripts
+{
+<script abp-src="/view-resources/Areas/Portal/Views/CompanyTransactions/Index.js" asp-append-version="true"></script>
+}
+
+<abp-page-subheader title='@L("CompanyTransactions")' description='@L("CompanyTransactionsHeaderInfo")'>
+    <button id="ExportToExcelButton" class="btn btn-outline btn-outline-success btn-active-light-success me-1"><i class="fa fa-file-excel"></i> @L("ExportToExcel")</button>
+
+    @if (IsGranted(AppPermissions.Pages_CompanyTransactions_Create))
+    {
+    <button id="CreateNewCompanyTransactionButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewCompanyTransaction")</button>
+    }
+</abp-page-subheader>
+
+<div class="@(await GetContainerClass())">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <div class="form">
+                <div class="row align-items-center mb-4">
+                    <div class="col-xl-12">
+
+                        <div class="my-3">
+                            <div class="input-group">
+                                <input type="text" id="CompanyTransactionsTableFilter" class="form-control reload-on-change" placeholder='@L("SearchWithThreeDot")' value="@Model.FilterText">
+                                <button id="GetCompanyTransactionsButton" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="AdvacedAuditFiltersArea" style="display: none" class="row mb-4">
+                <div class="col-md-12">
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="InOutFilterId">@L("InOut")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="inOutFilter" id="InOutFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinDateFilterId">@L("DateRange")</label>
+                        <div class="input-group">
+                            <input class="form-control m-input date-picker startDate" type="text" placeholder="@L(" MinValue")" id="MinDateFilterId">
+                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                            <input class="form-control m-input date-picker endDate" type="text" placeholder="@L(" MaxValue")" id="MaxDateFilterId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="NoFilterId">@L("No")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="noFilter" id="NoFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="DescriptionFilterId">@L("Description")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="descriptionFilter" id="DescriptionFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinAmountFilterId">@L("MinMax") @L("Amount")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minAmountFilter" id="MinAmountFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxAmountFilter" id="MaxAmountFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinPriceFilterId">@L("MinMax") @L("Price")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minPriceFilter" id="MinPriceFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxPriceFilter" id="MaxPriceFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinTaxRateFilterId">@L("MinMax") @L("TaxRate")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minTaxRateFilter" id="MinTaxRateFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxTaxRateFilter" id="MaxTaxRateFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinTotalFilterId">@L("MinMax") @L("Total")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minTotalFilter" id="MinTotalFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxTotalFilter" id="MaxTotalFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="IsTransferredFilterId">@L("IsTransferred")</label>
+                        <select class="form-select reload-on-change" name="IsTransferredFilter" id="IsTransferredFilterId">
+                            <option value="-1">@L("All")</option>
+                            <option value="0">@L("False")</option>
+                            <option value="1">@L("True")</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="CompanyTaxAdministrationFilterId">(@L("Company")) @L("TaxAdministration")</label>
+                        <input type="text" class="form-control" name="companyTaxAdministrationFilter" id="CompanyTaxAdministrationFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="FuneralDisplayPropertyFilterId">(@L("Funeral")) @L("DisplayProperty")</label>
+                        <input type="text" class="form-control" name="funeralDisplayPropertyFilter" id="FuneralDisplayPropertyFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="DataListValueFilterId">(@L("DataList")) @L("Value")</label>
+                        <input type="text" class="form-control" name="dataListValueFilter" id="DataListValueFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="CurrencyCodeFilterId">(@L("Currency")) @L("Code")</label>
+                        <input type="text" class="form-control" name="currencyCodeFilter" id="CurrencyCodeFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="DataListValue2FilterId">(@L("DataList")) @L("Value")</label>
+                        <input type="text" class="form-control" name="dataListValue2Filter" id="DataListValue2FilterId">
+                    </div>
+                </div>
+                <div class="col-md-12 mt-5">
+                    <button class="btn btn-secondary btn-sm" id="btn-reset-filters">Reset</button>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-xl-12">
+                    <span id="ShowAdvancedFiltersSpan" class="text-muted clickable-item"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                    <span id="HideAdvancedFiltersSpan" class="text-muted clickable-item" style="display: none"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <table id="CompanyTransactionsTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>@L("Actions")</th>
+                            <th>@L("InOut")</th>
+                            <th>@L("Date")</th>
+                            <th>@L("No")</th>
+                            <th>@L("Description")</th>
+                            <th>@L("Amount")</th>
+                            <th>@L("Price")</th>
+                            <th>@L("TaxRate")</th>
+                            <th>@L("Total")</th>
+                            <th>@L("IsTransferred")</th>
+                            <th>@L("CompanyTaxAdministration")</th>
+                            <th>@L("FuneralDisplayProperty")</th>
+                            <th>@L("DataListValue")</th>
+                            <th>@L("CurrencyCode")</th>
+                            <th>@L("DataListValue")</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

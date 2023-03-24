@@ -1,0 +1,75 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.CompanyTransactions
+@model CompanyTransactionViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="CompanyTransactionInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("InOut") :</h6>
+                @Model.CompanyTransaction.InOut
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Date") :</h6>
+                @Model.CompanyTransaction.Date
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("No") :</h6>
+                @Model.CompanyTransaction.No
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Description") :</h6>
+                @Model.CompanyTransaction.Description
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Amount") :</h6>
+                @Model.CompanyTransaction.Amount
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Price") :</h6>
+                @Model.CompanyTransaction.Price
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("TaxRate") :</h6>
+                @Model.CompanyTransaction.TaxRate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Total") :</h6>
+                @Model.CompanyTransaction.Total
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("IsTransferred") :</h6>
+                @Model.CompanyTransaction.IsTransferred
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("Company")) @L("TaxAdministration") :</h6>
+                @Model.CompanyTaxAdministration
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Funeral")) @L("DisplayProperty") :</h6>
+                @Model.FuneralDisplayProperty
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("DataList")) @L("Value") :</h6>
+                @Model.DataListValue
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Currency")) @L("Code") :</h6>
+                @Model.CurrencyCode
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("DataList")) @L("Value") :</h6>
+                @Model.DataListValue2
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

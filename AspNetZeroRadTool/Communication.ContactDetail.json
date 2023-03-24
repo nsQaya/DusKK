@@ -1,0 +1,100 @@
+﻿{
+  "IsRegenerate": false,
+  "MenuPosition": "main",
+  "RelativeNamespace": "Communication",
+  "EntityName": "ContactDetail",
+  "EntityNamePlural": "ContactDetails",
+  "TableName": "ContactDetails",
+  "PrimaryKeyType": "int",
+  "BaseClass": "FullAuditedEntity",
+  "EntityHistory": false,
+  "AutoMigration": false,
+  "UpdateDatabase": false,
+  "CreateUserInterface": true,
+  "CreateViewOnly": true,
+  "CreateExcelExport": true,
+  "IsNonModalCRUDPage": false,
+  "IsMasterDetailPage": false,
+  "PagePermission": {
+    "Host": false,
+    "Tenant": false
+  },
+  "Properties": [
+    {
+      "Name": "Type",
+      "Type": "ContactType",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      },
+      "ViewType": null,
+      "AdditionalData": {}
+    },
+    {
+      "Name": "Value",
+      "Type": "string",
+      "MaxLength": 250,
+      "MinLength": 2,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": true,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      },
+      "ViewType": null,
+      "AdditionalData": {}
+    }
+  ],
+  "NavigationProperties": [{
+      "Namespace": "TDV.Communication",
+      "ForeignEntityName": "Contact",
+      "IdType": "int",
+      "IsNullable": true,
+      "PropertyName": "ContactId",
+      "DisplayPropertyName": "IdentifyNo",
+      "DuplicationNumber": 0,
+      "RelationType": "single",
+      "ViewType": "LookupTable",
+      "IsGeneratedByMasterPage": true
+    },],
+  "NavigationPropertyOneToManyTables": [],
+  "EnumDefinitions": [
+    {
+      "Name": "ContactType",
+      "Namespace": "TDV.Communication",
+      "EnumProperties": [
+        {
+          "Name": "Email",
+          "Value": 0
+        },
+        {
+          "Name": "MobilePhone",
+          "Value": 1
+        },
+        {
+          "Name": "LandlinePhone",
+          "Value": 2
+        }
+      ]
+    }
+  ],
+  "DbContext": null
+}

@@ -1,0 +1,32 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.ContractFormules
+@model CreateOrEditContractFormuleModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditContractFormule")) : L("CreateNewContractFormule")))
+
+<div class="modal-body">
+    <div id="ContractFormuleInformationsTab">
+        <form name="ContractFormuleInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.ContractFormule.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="ContractFormule_Formule">@L("Formule")</label>
+                <input class="form-control" id="ContractFormule_Formule" value="@Model.ContractFormule.Formule" type="text" name="formule" required />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="ContractFormule_Description">@L("Description")</label>
+                <input class="form-control" id="ContractFormule_Description" value="@Model.ContractFormule.Description" type="text" name="description" maxlength="@TDV.Payment.ContractFormuleConsts.MaxDescriptionLength" minlength="@TDV.Payment.ContractFormuleConsts.MinDescriptionLength" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,26 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralTypes
+@model FuneralTypeViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="FuneralTypeInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Description") :</h6>
+                @Model.FuneralType.Description
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("IsDefault") :</h6>
+                @Model.FuneralType.IsDefault
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

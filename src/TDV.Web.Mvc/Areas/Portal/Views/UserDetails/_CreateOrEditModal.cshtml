@@ -1,0 +1,58 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.UserDetails
+@model CreateOrEditUserDetailModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditUserDetail")) : L("CreateNewUserDetail")))
+
+<div class="modal-body">
+    <div id="UserDetailInformationsTab">
+        <form name="UserDetailInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.UserDetail.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="UserName">@L("User")</label>
+                <div class="input-group">
+                    <input class="form-control" id="UserName" name="userName" value="@Model.UserName" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenUserLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearUserNameButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="UserDetail_UserId" value="@Model.UserDetail.UserId" type="text" name="userId" hidden />
+            }
+            else
+            {
+            <input class="form-control" id="UserDetail_UserId" value="" type="text" name="userId" hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="ContactDisplayProperty">@L("Contact")</label>
+                <div class="input-group">
+                    <input class="form-control" id="ContactDisplayProperty" name="contactDisplayProperty" value="@Model.ContactDisplayProperty" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenContactLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearContactDisplayPropertyButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="UserDetail_ContactId" value="@Model.UserDetail.ContactId" type="text" name="contactId" hidden />
+            }
+            else
+            {
+            <input class="form-control" id="UserDetail_ContactId" value="" type="text" name="contactId" hidden />
+            }
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

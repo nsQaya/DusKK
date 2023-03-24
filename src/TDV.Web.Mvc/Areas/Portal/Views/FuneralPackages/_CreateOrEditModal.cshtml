@@ -1,0 +1,43 @@
+﻿@using TDV.Burial;
+
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralPackages
+@model CreateOrEditFuneralPackageModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFuneralPackage")) : L("CreateNewFuneralPackage")))
+
+<div class="modal-body">
+    <div id="FuneralPackageInformationsTab">
+        <form name="FuneralPackageInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.FuneralPackage.Id" />
+            }
+
+            @{
+            var selectListStatus = Html.GetEnumSelectList(typeof(FuneralStatus));
+            foreach (var selectOption in selectListStatus) { selectOption.Text = L("Enum_FuneralStatus_" + selectOption.Value); }
+            }
+            <div class="my-3">
+                <label class="form-label" for="FuneralPackage_Status">@L("Status")</label>
+                <select class="form-select m-input m-input--square" name="status" id="FuneralPackage_Status" asp-for="@Model.FuneralPackage.Status" asp-items="@selectListStatus">
+                </select>
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralPackage_Code">@L("Code")</label>
+                <input class="form-control" id="FuneralPackage_Code" value="@Model.FuneralPackage.Code" type="text" name="code" required maxlength="@TDV.Burial.FuneralPackageConsts.MaxCodeLength" minlength="@TDV.Burial.FuneralPackageConsts.MinCodeLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralPackage_Description">@L("Description")</label>
+                <input class="form-control" id="FuneralPackage_Description" value="@Model.FuneralPackage.Description" type="text" name="description" maxlength="@TDV.Burial.FuneralPackageConsts.MaxDescriptionLength" minlength="@TDV.Burial.FuneralPackageConsts.MinDescriptionLength" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

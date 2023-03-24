@@ -1,0 +1,125 @@
+﻿@using TDV.Authorization
+@using TDV.Web.Areas.Portal.Models.FuneralFlights
+@using TDV.Web.Areas.Portal.Startup
+@model MasterDetailChild_Funeral_FuneralFlightsViewModel
+@{
+Layout = null;
+}
+<script abp-src="/view-resources/Areas/Portal/Views/MasterDetailChild_Funeral_FuneralFlights/Index.js" asp-append-version="true"></script>
+<input type="hidden" id="MasterDetailChild_Funeral_FuneralFlightsId" value="@Model.FuneralId" />
+
+<div class="card card-custom gutter-b">
+
+    <div class="card-header border-0 py-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label font-weight-bolder text-dark">@L("FuneralFlights")</span>
+            <span class="text-muted mt-3 font-weight-bold font-size-sm">@L("FuneralFlightsHeaderInfo")</span>
+        </h3>
+        <div class="card-toolbar">
+            <button id="ExportToExcelButton" class="btn btn-outline btn-outline-success btn-active-light-success me-1"><i class="fa fa-file-excel"></i> @L("ExportToExcel")</button>
+
+            @if (IsGranted(AppPermissions.Pages_FuneralFlights_Create))
+            {
+            <button id="CreateNewFuneralFlightButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewFuneralFlight")</button>
+            }
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="form">
+            <div class="row align-items-center mb-4">
+                <div class="col-xl-12">
+
+                    <div class="my-3">
+                        <div class="input-group">
+                            <input type="text" id="MasterDetailChild_Funeral_FuneralFlightsTableFilter" class="form-control m-input" placeholder='@L("SearchWithThreeDot")' value="@Model.FilterText">
+                            <button id="GetFuneralFlightsButton" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="MasterDetailChild_Funeral_AdvacedAuditFiltersArea" style="display: none" class="row mb-4">
+            <div class="col-md-12">
+
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="MasterDetailChild_Funeral_NoFilterId">@L("No")</label>
+                    <input type="text" class="form-control" name="noFilter" id="MasterDetailChild_Funeral_NoFilterId">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="MasterDetailChild_Funeral_CodeFilterId">@L("Code")</label>
+                    <input type="text" class="form-control" name="codeFilter" id="MasterDetailChild_Funeral_CodeFilterId">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="MasterDetailChild_Funeral_MinLiftOffDateFilterId">@L("LiftOffDateRange")</label>
+                    <div class="input-group">
+                        <input class="form-control m-input date-picker" type="text" placeholder="@L(" MinValue")" id="MasterDetailChild_Funeral_MinLiftOffDateFilterId">
+                        <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                        <input class="form-control m-input date-picker" type="text" placeholder="@L(" MaxValue")" id="MasterDetailChild_Funeral_MaxLiftOffDateFilterId">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="MasterDetailChild_Funeral_MinLandingDateFilterId">@L("LandingDateRange")</label>
+                    <div class="input-group">
+                        <input class="form-control m-input date-picker" type="text" placeholder="@L(" MinValue")" id="MasterDetailChild_Funeral_MinLandingDateFilterId">
+                        <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                        <input class="form-control m-input date-picker" type="text" placeholder="@L(" MaxValue")" id="MasterDetailChild_Funeral_MaxLandingDateFilterId">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="MasterDetailChild_Funeral_AirlineCompanyCodeFilterId">(@L("AirlineCompany")) @L("Code")</label>
+                    <input type="text" class="form-control" name="airlineCompanyCodeFilter" id="MasterDetailChild_Funeral_AirlineCompanyCodeFilterId">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="MasterDetailChild_Funeral_AirportNameFilterId">(@L("Airport")) @L("Name")</label>
+                    <input type="text" class="form-control" name="airportNameFilter" id="MasterDetailChild_Funeral_AirportNameFilterId">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="MasterDetailChild_Funeral_AirportName2FilterId">(@L("Airport")) @L("Name")</label>
+                    <input type="text" class="form-control" name="airportName2Filter" id="MasterDetailChild_Funeral_AirportName2FilterId">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-xl-12">
+                <span id="MasterDetailChild_Funeral_ShowAdvancedFiltersSpan" class="text-muted clickable-item"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                <span id="MasterDetailChild_Funeral_HideAdvancedFiltersSpan" class="text-muted clickable-item" style="display: none"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <table id="MasterDetailChild_Funeral_FuneralFlightsTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                <thead>
+                    <tr>
+                        <th></th>
+
+                        <th>@L("Actions")</th>
+                        <th>@L("No")</th>
+                        <th>@L("Code")</th>
+                        <th>@L("LiftOffDate")</th>
+                        <th>@L("LandingDate")</th>
+                        <th>@L("AirlineCompanyCode")</th>
+                        <th>@L("AirportName")</th>
+                        <th>@L("AirportName")</th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>

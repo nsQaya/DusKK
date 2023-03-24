@@ -1,0 +1,85 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Vehicles
+@model CreateOrEditVehicleModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditVehicle")) : L("CreateNewVehicle")))
+
+<div class="modal-body">
+    <div id="VehicleInformationsTab">
+        <form name="VehicleInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Vehicle.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyDisplayProperty">@L("Company")</label>
+                <div class="input-group">
+                    <input class="form-control" id="CompanyDisplayProperty" name="companyDisplayProperty" value="@Model.CompanyDisplayProperty" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenCompanyLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearCompanyDisplayPropertyButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="Vehicle_CompanyId" value="@Model.Vehicle.CompanyId" type="text" name="companyId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="Vehicle_CompanyId" value="" type="text" name="companyId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_Plate">@L("Plate")</label>
+                <input class="form-control" id="Vehicle_Plate" value="@Model.Vehicle.Plate" type="text" name="plate" required maxlength="@TDV.Corporation.VehicleConsts.MaxPlateLength" minlength="@TDV.Corporation.VehicleConsts.MinPlateLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_Description">@L("Description")</label>
+                <input class="form-control" id="Vehicle_Description" value="@Model.Vehicle.Description" type="text" name="description" maxlength="@TDV.Corporation.VehicleConsts.MaxDescriptionLength" minlength="@TDV.Corporation.VehicleConsts.MinDescriptionLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_EndExaminationDate">@L("EndExaminationDate")</label>
+                <input class="form-control m-input date-picker" id="Vehicle_EndExaminationDate" type="text" name="endExaminationDate" value="@Model.Vehicle.EndExaminationDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_EndInsuranceDate">@L("EndInsuranceDate")</label>
+                <input class="form-control m-input date-picker" id="Vehicle_EndInsuranceDate" type="text" name="endInsuranceDate" value="@Model.Vehicle.EndInsuranceDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_EndGuarantyDate">@L("EndGuarantyDate")</label>
+                <input class="form-control m-input date-picker" id="Vehicle_EndGuarantyDate" type="text" name="endGuarantyDate" value="@Model.Vehicle.EndGuarantyDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_Capactiy">@L("Capactiy")</label>
+                <input class="form-control m-input" id="Vehicle_Capactiy" value="@Model.Vehicle.Capactiy.ToString(CultureInfo.InvariantCulture)" type="number" name="capactiy" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_Year">@L("Year")</label>
+                <input class="form-control m-input" id="Vehicle_Year" value="@Model.Vehicle.Year?.ToString(CultureInfo.InvariantCulture)" type="number" name="year" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_Brand">@L("Brand")</label>
+                <input class="form-control" id="Vehicle_Brand" value="@Model.Vehicle.Brand" type="text" name="brand" required maxlength="@TDV.Corporation.VehicleConsts.MaxBrandLength" minlength="@TDV.Corporation.VehicleConsts.MinBrandLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Vehicle_TrackNo">@L("TrackNo")</label>
+                <input class="form-control" id="Vehicle_TrackNo" value="@Model.Vehicle.TrackNo" type="text" name="trackNo" maxlength="@TDV.Corporation.VehicleConsts.MaxTrackNoLength" minlength="@TDV.Corporation.VehicleConsts.MinTrackNoLength" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

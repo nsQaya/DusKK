@@ -1,0 +1,156 @@
+﻿@using TDV.Authorization
+@using TDV.Web.Areas.Portal.Models.Vehicles
+@using TDV.Web.Areas.Portal.Startup
+@model VehiclesViewModel
+@{
+ViewBag.CurrentPageName = PortalPageNames.Common.Vehicles;
+}
+@section Scripts
+{
+<script abp-src="/view-resources/Areas/Portal/Views/Vehicles/Index.js" asp-append-version="true"></script>
+}
+
+<abp-page-subheader title='@L("Vehicles")' description='@L("VehiclesHeaderInfo")'>
+    <button id="ExportToExcelButton" class="btn btn-outline btn-outline-success btn-active-light-success me-1"><i class="fa fa-file-excel"></i> @L("ExportToExcel")</button>
+
+    @if (IsGranted(AppPermissions.Pages_Vehicles_Create))
+    {
+    <button id="CreateNewVehicleButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewVehicle")</button>
+    }
+</abp-page-subheader>
+
+<div class="@(await GetContainerClass())">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <div class="form">
+                <div class="row align-items-center mb-4">
+                    <div class="col-xl-12">
+
+                        <div class="my-3">
+                            <div class="input-group">
+                                <input type="text" id="VehiclesTableFilter" class="form-control reload-on-change" placeholder='@L("SearchWithThreeDot")' value="@Model.FilterText">
+                                <button id="GetVehiclesButton" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="AdvacedAuditFiltersArea" style="display: none" class="row mb-4">
+                <div class="col-md-12">
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="PlateFilterId">@L("Plate")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="plateFilter" id="PlateFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="DescriptionFilterId">@L("Description")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="descriptionFilter" id="DescriptionFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinEndExaminationDateFilterId">@L("EndExaminationDateRange")</label>
+                        <div class="input-group">
+                            <input class="form-control m-input date-picker startDate" type="text" placeholder="@L(" MinValue")" id="MinEndExaminationDateFilterId">
+                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                            <input class="form-control m-input date-picker endDate" type="text" placeholder="@L(" MaxValue")" id="MaxEndExaminationDateFilterId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinEndInsuranceDateFilterId">@L("EndInsuranceDateRange")</label>
+                        <div class="input-group">
+                            <input class="form-control m-input date-picker startDate" type="text" placeholder="@L(" MinValue")" id="MinEndInsuranceDateFilterId">
+                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                            <input class="form-control m-input date-picker endDate" type="text" placeholder="@L(" MaxValue")" id="MaxEndInsuranceDateFilterId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinEndGuarantyDateFilterId">@L("EndGuarantyDateRange")</label>
+                        <div class="input-group">
+                            <input class="form-control m-input date-picker startDate" type="text" placeholder="@L(" MinValue")" id="MinEndGuarantyDateFilterId">
+                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                            <input class="form-control m-input date-picker endDate" type="text" placeholder="@L(" MaxValue")" id="MaxEndGuarantyDateFilterId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinCapactiyFilterId">@L("MinMax") @L("Capactiy")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minCapactiyFilter" id="MinCapactiyFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxCapactiyFilter" id="MaxCapactiyFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinYearFilterId">@L("MinMax") @L("Year")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minYearFilter" id="MinYearFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxYearFilter" id="MaxYearFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="BrandFilterId">@L("Brand")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="brandFilter" id="BrandFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="TrackNoFilterId">@L("TrackNo")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="trackNoFilter" id="TrackNoFilterId">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="CompanyDisplayPropertyFilterId">(@L("Company")) @L("DisplayProperty")</label>
+                        <input type="text" class="form-control" name="companyDisplayPropertyFilter" id="CompanyDisplayPropertyFilterId">
+                    </div>
+                </div>
+                <div class="col-md-12 mt-5">
+                    <button class="btn btn-secondary btn-sm" id="btn-reset-filters">Reset</button>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-xl-12">
+                    <span id="ShowAdvancedFiltersSpan" class="text-muted clickable-item"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                    <span id="HideAdvancedFiltersSpan" class="text-muted clickable-item" style="display: none"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <table id="VehiclesTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>@L("Actions")</th>
+                            <th>@L("Plate")</th>
+                            <th>@L("Description")</th>
+                            <th>@L("EndExaminationDate")</th>
+                            <th>@L("EndInsuranceDate")</th>
+                            <th>@L("EndGuarantyDate")</th>
+                            <th>@L("Capactiy")</th>
+                            <th>@L("Year")</th>
+                            <th>@L("Brand")</th>
+                            <th>@L("TrackNo")</th>
+                            <th>@L("CompanyDisplayProperty")</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

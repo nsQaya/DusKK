@@ -1,0 +1,56 @@
+﻿@using TDV.Communication;
+
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.ContactDetails
+@model CreateOrEditContactDetailModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditContactDetail")) : L("CreateNewContactDetail")))
+
+<div class="modal-body">
+    <div id="ContactDetailInformationsTab">
+        <form name="ContactDetailInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.ContactDetail.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="ContactIdentifyNo">@L("Contact")</label>
+                <div class="input-group">
+                    <input class="form-control" id="ContactIdentifyNo" name="contactIdentifyNo" value="@Model.ContactIdentifyNo" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenContactLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearContactIdentifyNoButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="ContactDetail_ContactId" value="@Model.ContactDetail.ContactId" type="text" name="contactId" hidden />
+            }
+            else
+            {
+            <input class="form-control" id="ContactDetail_ContactId" value="" type="text" name="contactId" hidden />
+            }
+
+            @{
+            var selectListType = Html.GetEnumSelectList(typeof(ContactType));
+            foreach (var selectOption in selectListType) { selectOption.Text = L("Enum_ContactType_" + selectOption.Value); }
+            }
+            <div class="my-3">
+                <label class="form-label" for="ContactDetail_Type">@L("Type")</label>
+                <select class="form-select m-input m-input--square" name="type" id="ContactDetail_Type" asp-for="@Model.ContactDetail.Type" asp-items="@selectListType">
+                </select>
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="ContactDetail_Value">@L("Value")</label>
+                <input class="form-control" id="ContactDetail_Value" value="@Model.ContactDetail.Value" type="text" name="value" required maxlength="@TDV.Communication.ContactDetailConsts.MaxValueLength" minlength="@TDV.Communication.ContactDetailConsts.MinValueLength" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,63 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralTranportOrders
+@model FuneralTranportOrderViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="FuneralTranportOrderInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("StartDate") :</h6>
+                @Model.FuneralTranportOrder.StartDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("StartKM") :</h6>
+                @Model.FuneralTranportOrder.StartKM
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("OperationDate") :</h6>
+                @Model.FuneralTranportOrder.OperationDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("OperationKM") :</h6>
+                @Model.FuneralTranportOrder.OperationKM
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("DeliveryDate") :</h6>
+                @Model.FuneralTranportOrder.DeliveryDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("DeliveryKM") :</h6>
+                @Model.FuneralTranportOrder.DeliveryKM
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("EndDate") :</h6>
+                @Model.FuneralTranportOrder.EndDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("EndKM") :</h6>
+                @Model.FuneralTranportOrder.EndKM
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("ReceiverFullName") :</h6>
+                @Model.FuneralTranportOrder.ReceiverFullName
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("ReceiverKinshipDegree") :</h6>
+                @Model.FuneralTranportOrder.ReceiverKinshipDegree
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("FuneralWorkOrderDetail")) @L("Description") :</h6>
+                @Model.FuneralWorkOrderDetailDescription
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

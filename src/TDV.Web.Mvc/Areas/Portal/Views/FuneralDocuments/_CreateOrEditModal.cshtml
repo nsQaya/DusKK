@@ -1,0 +1,61 @@
+﻿@using TDV.Burial;
+
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralDocuments
+@model CreateOrEditFuneralDocumentModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFuneralDocument")) : L("CreateNewFuneralDocument")))
+
+<div class="modal-body">
+    <div id="FuneralDocumentInformationsTab">
+        <form name="FuneralDocumentInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.FuneralDocument.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralDisplayProperty">@L("Funeral")</label>
+                <div class="input-group">
+                    <input class="form-control" id="FuneralDisplayProperty" name="funeralDisplayProperty" value="@Model.FuneralDisplayProperty" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenFuneralLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearFuneralDisplayPropertyButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="FuneralDocument_FuneralId" value="@Model.FuneralDocument.FuneralId" type="text" name="funeralId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="FuneralDocument_FuneralId" value="" type="text" name="funeralId" required hidden />
+            }
+
+            @{
+            var selectListType = Html.GetEnumSelectList(typeof(FuneralDocumentType));
+            foreach (var selectOption in selectListType) { selectOption.Text = L("Enum_FuneralDocumentType_" + selectOption.Value); }
+            }
+            <div class="my-3">
+                <label class="form-label" for="FuneralDocument_Type">@L("Type")</label>
+                <select class="form-select m-input m-input--square" name="type" id="FuneralDocument_Type" asp-for="@Model.FuneralDocument.Type" asp-items="@selectListType">
+                </select>
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralDocument_Path">@L("Path")</label>
+                <input class="form-control" id="FuneralDocument_Path" value="@Model.FuneralDocument.Path" type="text" name="path" required />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralDocument_Guid">@L("Guid")</label>
+                <input class="form-control" id="FuneralDocument_Guid" value="@Model.FuneralDocument.Guid" type="text" name="guid" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

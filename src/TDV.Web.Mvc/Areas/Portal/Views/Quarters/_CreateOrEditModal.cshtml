@@ -1,0 +1,76 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Quarters
+@model CreateOrEditQuarterModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditQuarter")) : L("CreateNewQuarter")))
+
+<div class="modal-body">
+    <div id="QuarterInformationsTab">
+        <form name="QuarterInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Quarter.Id" />
+            }
+            <div class="my-3">
+                <label class="form-label" for="countryId">@L("Country")</label>
+                @Html.DropDownList("countryId", new SelectList(Model.CountryList,"Id","DisplayName", (Model.IsEditMode ? Model.Quarter.CountryId.ToString() : "")),@L("SelectACountry"), new { @class = "form-control" , @required="required" })
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="cityId">@L("City")</label>
+                @{
+                    if (Model.CityList == null)
+                    {
+                        <select class="form-control" id="cityId" name="cityId" required="required">
+                            <option value="" disabled selected>@L("SelectACountry")</option>
+                        </select>
+                    }
+                    else
+                    {
+                        @Html.DropDownList("cityId", new SelectList(Model.CityList,"Id","DisplayName", (Model.IsEditMode ? Model.Quarter.CityId.ToString() : "")),@L("SelectACity"), new { @class = "form-control" , @required="required" })
+
+                    }
+                }
+                
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="districtId">@L("District")</label>
+                @{
+                    if (Model.QuarterDistrictList == null)
+                    {
+                        <select class="form-control" id="districtId" name="districtId" required="required">
+                            <option value="" disabled selected>@L("SelectACity")</option>
+                        </select>
+                    }
+                    else
+                    {
+                        @Html.DropDownList("districtId", new SelectList(Model.QuarterDistrictList,"Id","DisplayName", (Model.IsEditMode ? Model.Quarter.DistrictId.ToString() : "")),@L("SelectADistrict"), new { @class = "form-control" , @required="required" })
+
+                    }
+                }
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Quarter_Name">@L("Name")</label>
+                <input class="form-control" id="Quarter_Name" value="@Model.Quarter.Name" type="text" name="name" required maxlength="@TDV.Location.QuarterConsts.MaxNameLength" minlength="@TDV.Location.QuarterConsts.MinNameLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Quarter_Order">@L("Order")</label>
+                <input class="form-control m-input" id="Quarter_Order" value="@Model.Quarter.Order.ToString(CultureInfo.InvariantCulture)" type="number" name="order" />
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="Quarter_IsActive" name="isActive" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.Quarter.IsActive ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsActive")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

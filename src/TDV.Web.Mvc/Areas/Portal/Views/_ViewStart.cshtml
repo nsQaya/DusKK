@@ -1,0 +1,5 @@
+﻿@using TDV.UiCustomization.Dto
+@{
+    UiCustomizationSettingsDto theme = await GetTheme();
+    Layout = "~/Areas/Portal/Views/Layout/" + theme.BaseSettings.Theme + "/_Layout.cshtml";
+}

@@ -1,0 +1,13 @@
+﻿using System.Collections.Generic;
+using TDV.Editions.Dto;
+using TDV.MultiTenancy.Payments;
+
+namespace TDV.Web.Models.Payment
+{
+    public class ExtendEditionViewModel
+    {
+        public EditionSelectDto Edition { get; set; }
+
+        public List<PaymentGatewayModel> PaymentGateways { get; set; }
+    }
+}

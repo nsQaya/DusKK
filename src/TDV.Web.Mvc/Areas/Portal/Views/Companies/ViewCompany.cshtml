@@ -1,0 +1,150 @@
+﻿@using TDV.Web.Areas.Portal.Startup
+@using TDV.Web.Areas.Portal.Models.Companies
+@model CompanyViewModel
+@using TDV.Web.TagHelpers
+@{
+ViewBag.CurrentPageName = PortalPageNames.Common.Companies;
+}
+@section Scripts
+{
+<script abp-src="/view-resources/Areas/Portal/Views/Companies/View.js" asp-append-version="true"></script>
+}
+
+@{
+var breadcrumbs = new List<BreadcrumbItem>()
+    {
+    new BreadcrumbItem("/Portal/Companies", L("Companies")),
+    new BreadcrumbItem(L("Details")),
+    };
+    }
+    <abp-page-subheader title='@L("Details")' breadcrumbs="breadcrumbs">
+    </abp-page-subheader>
+
+    <div class="@(await GetContainerClass())">
+        <div class=" card card-custom gutter-b">
+            <div class=" card-body">
+                <div id="CompanyInformationsTab">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <h6>@L("IsActive") :</h6>
+                            @Model.Company.IsActive
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Type") :</h6>
+                            @L("Enum_CompanyType_" + (int)Model.Company.Type)
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("TaxAdministration") :</h6>
+                            @Model.Company.TaxAdministration
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("TaxNo") :</h6>
+                            @Model.Company.TaxNo
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Website") :</h6>
+                            @Model.Company.Website
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Phone") :</h6>
+                            @Model.Company.Phone
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Fax") :</h6>
+                            @Model.Company.Fax
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Email") :</h6>
+                            @Model.Company.Email
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Address") :</h6>
+                            @Model.Company.Address
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("RunningCode") :</h6>
+                            @Model.Company.RunningCode
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>@L("Prefix") :</h6>
+                            @Model.Company.Prefix
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <h6>(@L("OrganizationUnit")) @L("DisplayName") :</h6>
+                            @Model.OrganizationUnitDisplayName
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("City")) @L("DisplayProperty") :</h6>
+                            @Model.CityDisplayProperty
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>(@L("Quarter")) @L("Name") :</h6>
+                            @Model.QuarterName
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="card card-custom gutter-b mt-3">
+            <div class="card-body">
+                <input name="organizationUnitId" value="@Model.Company.OrganizationUnitId" hidden />
+                <input name="companyId" value="@Model.Company.Id" hidden />
+                <custom-tabs>
+                    <custom-tab name="Arabalar" icon="flaticon2-delivery-truck">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-success mb-2" id="addNewVehicle">Yeni araç ekle</button>
+                        </div>
+                        <table id="VehiclesTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                            <thead>
+                                <tr>
+                                    <th></th>
+
+                                    <th>@L("Actions")</th>
+                                    <th>@L("Plate")</th>
+                                    <th>@L("Description")</th>
+                                    <th>@L("EndExaminationDate")</th>
+                                    <th>@L("EndInsuranceDate")</th>
+                                    <th>@L("EndGuarantyDate")</th>
+                                    <th>@L("Capactiy")</th>
+                                    <th>@L("Year")</th>
+                                    <th>@L("Brand")</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </custom-tab>
+                    <custom-tab name="İletişim" icon="flaticon2-phone">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-success mb-2" id="addNewContact">Yeni iletişim ekle</button>
+                        </div>
+                        <table id="CompanyContactsTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                            <thead>
+                                <tr>
+                                    <th></th>
+
+                                    <th>@L("Actions")</th>
+                                    <th>@L("Title")</th>
+                                    <th>@L("ContactName")</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </custom-tab>
+                    <custom-tab name="Personeller" icon="flaticon2-avatar">
+                        <table id="CompanyUsers" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                            <thead>
+                                <tr>
+                                    <th></th>
+
+                                    <th>@L("Delete")</th>
+                                    <th>@L("UserName")</th>
+                                    <th>@L("AddedTime")</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </custom-tab>
+                </custom-tabs>
+            </div>
+        </div>
+    </div>

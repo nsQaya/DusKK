@@ -1,0 +1,13 @@
+﻿@using TDV.Web.Areas.Portal.Models.Layout
+@using TDV.Web.Areas.Portal.Views.Shared.Components.PortalLogo
+@model HeaderViewModel
+@{
+    Layout = null;
+}
+<a href="@Url.Action("Index", "Home", new {area = string.Empty})" class="d-flex align-items-center">
+    @await Component.InvokeAsync(typeof(PortalLogoViewComponent), new
+    {
+        LogoSkin = ViewBag.BrandLogoSkin,
+        logoClass = "h-45px logo"
+    })
+</a>

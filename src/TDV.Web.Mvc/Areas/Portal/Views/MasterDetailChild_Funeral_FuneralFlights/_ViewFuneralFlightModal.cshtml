@@ -1,0 +1,47 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralFlights
+@model MasterDetailChild_Funeral_FuneralFlightViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="FuneralFlightInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("No") :</h6>
+                @Model.FuneralFlight.No
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Code") :</h6>
+                @Model.FuneralFlight.Code
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("LiftOffDate") :</h6>
+                @Model.FuneralFlight.LiftOffDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("LandingDate") :</h6>
+                @Model.FuneralFlight.LandingDate
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("AirlineCompany")) @L("Code") :</h6>
+                @Model.AirlineCompanyCode
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Airport")) @L("Name") :</h6>
+                @Model.AirportName
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Airport")) @L("Name") :</h6>
+                @Model.AirportName2
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

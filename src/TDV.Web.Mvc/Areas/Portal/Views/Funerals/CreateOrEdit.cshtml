@@ -1,0 +1,322 @@
+﻿@using TDV.Burial;
+
+@using System.Globalization
+@using TDV.Authorization
+@using TDV.Web.Areas.Portal.Models.Funerals
+@using TDV.Web.Areas.Portal.Startup
+@model CreateOrEditFuneralViewModel
+@using Abp.Extensions
+@using TDV.Web.TagHelpers
+@using TDV.Web.TagHelpers.Customs;
+@{
+    var stepperNavs = new List<StepperNavigationItem>() {
+        new StepperNavigationItem(1,"Kişi Bilgileri","Vefat eden kişinin bilgileri"),
+        new StepperNavigationItem(2,"Adres Bilgileri","Vefat eden kişinin gömüleceği veya<br/> teslim edileceği yere ait adres bilgileri"),
+        new StepperNavigationItem(3,"Belgeler","Vefat eden kişiye ait belgeler"),
+        new StepperNavigationItem(4,"Uçuş Bilgileri",""),
+        new StepperNavigationItem(5,"Ücretlendirme","")
+    };
+
+ViewBag.CurrentPageName = PortalPageNames.Common.Funerals;
+}
+@section Scripts
+{
+<script abp-src="/view-resources/Areas/Portal/Views/Funerals/CreateOrEdit.js" asp-append-version="true"></script>
+<script abp-src="/view-resources/Areas/Portal/Views/_Bundles/FuneralCreate.js" asp-append-version="true"></script>
+}
+
+@{
+    
+var breadcrumbs = new List<BreadcrumbItem>()
+    {
+    new BreadcrumbItem("/Portal/Funerals", L("Funerals")),
+    new BreadcrumbItem(Model.IsEditMode ? L("Edit") : L("Create"))
+    };
+    }
+    <abp-page-subheader title='@(Model.IsEditMode ? (L("EditFuneral")) : L("CreateNewFuneral"))' breadcrumbs="breadcrumbs">
+    </abp-page-subheader>
+
+        <div class="@(await GetContainerClass())">
+    	<div class="card card-custom gutter-b">
+    		<!--begin::Stepper-->
+    		<div class="stepper stepper-pills" id="funeralStepper">
+    			<stepper-navs navs="stepperNavs"></stepper-navs>
+    			<!--begin::Form-->
+    			<div class="form w-lg-800px mx-auto" id="funeralStepperForm">
+    				<!--begin::Group-->
+    				<div class="mb-5">
+    					<!--begin::Step 1-->
+    					<div class="flex-column current" data-kt-stepper-element="content">
+                            <form id="funeralMainInfos">
+                                <input hidden name="id" value="@Model.Funeral?.Id" />
+                                @if (Model.IsEditMode)
+                                {
+                                    <input class="form-control" id="Funeral_TypeId" value="@Model.Funeral.TypeId" type="text" name="typeId" required hidden />
+                                }
+                                else
+                                {
+                                    <input class="form-control" id="Funeral_TypeId" value="" type="text" name="typeId" required hidden />
+                                }
+                                <div class="row">
+                                    <div class="my-3">
+                                        <label class="form-label" for="typeId">@L("FuneralType")</label>
+                                        @Html.DropDownList("typeId", new SelectList(Model.FuneralFuneralTypeList,"Id","DisplayName", (Model.IsEditMode ? Model.Funeral.TypeId.ToString() : "")),@L("SelectAFuneralType"), new { @class = "form-control" , @required="required" })
+                                    </div>
+                                    <div class="col col-md-6 col-12">
+                                        <label class="form-label" for="Funeral_TransferNo">@L("TransferNo")</label>
+                                        <input class="form-control" id="Funeral_TransferNo" value="@Model.Funeral.TransferNo" type="text" name="transferNo" required maxlength="@TDV.Burial.FuneralConsts.MaxTransferNoLength" minlength="@TDV.Burial.FuneralConsts.MinTransferNoLength" />
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col col-md-6 col-12">
+                                        <label class="form-label" for="Funeral_Name">@L("Name")</label>
+                                        <input class="form-control" id="Funeral_Name" value="@Model.Funeral.Name" type="text" name="name" required maxlength="@TDV.Burial.FuneralConsts.MaxNameLength" minlength="@TDV.Burial.FuneralConsts.MinNameLength" />
+                                    </div>
+                                    <div class="col col-md-6 col-12">
+                                        <label class="form-label" for="Funeral_Surname">@L("Surname")</label>
+                                        <input class="form-control" id="Funeral_Surname" value="@Model.Funeral.Surname" type="text" name="surname" required maxlength="@TDV.Burial.FuneralConsts.MaxSurnameLength" minlength="@TDV.Burial.FuneralConsts.MinSurnameLength" />
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col col-md-3 col-12">
+                                        <label class="form-label" for="Funeral_MemberNo">@L("MemberNo")</label>
+                                        <input class="form-control" id="Funeral_MemberNo" value="@Model.Funeral.MemberNo" type="text" name="memberNo" required maxlength="@TDV.Burial.FuneralConsts.MaxMemberNoLength" minlength="@TDV.Burial.FuneralConsts.MinMemberNoLength" />
+                                    </div>
+                                    <div class="col col-md-3 col-12">
+                                        <label class="form-label" for="Funeral_TcNo">@L("TcNo")</label>
+                                        <input class="form-control m-input" id="Funeral_TcNo" value="@Model.Funeral.TcNo?.ToString(CultureInfo.InvariantCulture)" type="text" name="tcNo" />
+                                    </div>
+                                    <div class="col col-md-3 col-12">
+                                        <label class="form-label" for="Funeral_PassportNo">@L("PassportNo")</label>
+                                        <input class="form-control" id="Funeral_PassportNo" value="@Model.Funeral.PassportNo" type="text" name="passportNo" required maxlength="@TDV.Burial.FuneralConsts.MaxPassportNoLength" minlength="@TDV.Burial.FuneralConsts.MinPassportNoLength" />
+                                    </div>
+                                    <div class="col col-md-3 col-12">
+                                        <label class="form-label" for="Funeral_LadingNo">@L("LadingNo")</label>
+                                        <input class="form-control" id="Funeral_LadingNo" value="@Model.Funeral.LadingNo" type="text" name="ladingNo" required maxlength="@TDV.Burial.FuneralConsts.MaxLadingNoLength" minlength="@TDV.Burial.FuneralConsts.MinLadingNoLength" />
+                                    </div>
+                                </div>
+                                <div class="my-3">
+                                    <label class="form-label" for="giverOrgUnitId">OWNER @L("OwnerOrganizationUnit")</label>
+                                    @Html.DropDownList("ownerOrgUnitId", new SelectList(Model.FuneralOrganizationUnitList,"Id","DisplayName", (Model.IsEditMode ? Model.Funeral.GiverOrgUnitId.ToString() : "")),@L("SelectAOrganizationUnit"), new { @class = "form-control" , @required="required" })
+                                </div>
+                                <div class="my-3">
+                                    <label class="form-label" for="giverOrgUnitId">GİVER @L("GiverOrganizationUnit")</label>
+                                    @Html.DropDownList("giverOrgUnitId", new SelectList(Model.FuneralOrganizationUnitList,"Id","DisplayName", (Model.IsEditMode ? Model.Funeral.GiverOrgUnitId.ToString() : "")),@L("SelectAOrganizationUnit"), new { @class = "form-control" , @required="required" })
+                                </div>
+                                <div class="my-3">
+                                    <label class="form-label" for="contractorOrgUnitId"> CONTRACTOR @L("ContractorOrganizationUnit")</label>
+                                    @Html.DropDownList("contractorOrgUnitId", new SelectList(Model.FuneralOrganizationUnitList,"Id","DisplayName", (Model.IsEditMode ? Model.Funeral.ContractorOrgUnitId.ToString() : "")),@L("SelectAOrganizationUnit"), new { @class = "form-control" })
+                                </div>
+                                <div class="my-3">
+                                    <label class="form-label" for="employeePersonId">@L("User")</label>
+                                    @Html.DropDownList("employeePersonId", new SelectList(Model.FuneralUserList,"Id","DisplayName", (Model.IsEditMode ? Model.Funeral.EmployeePersonId.ToString() : "")),@L("SelectAUser"), new { @class = "form-control" })
+                                </div>
+                                <div class="my-3">
+                                    <label class="form-label" for="funeralPackageId">@L("FuneralPackage")</label>
+                                    @Html.DropDownList("funeralPackageId", new SelectList(Model.FuneralFuneralPackageList,"Id","DisplayName", (Model.IsEditMode ? Model.Funeral.FuneralPackageId.ToString() : "")),@L("SelectAFuneralPackage"), new { @class = "form-control" })
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col-12 my-3">
+
+                                        <input class="form-control" name="contact[id]" value="@Model.Funeral.ContactId" type="text" disabled hidden>
+
+                                        <label class="form-label">@L("Contact") @L("Pick") </label>
+                                        <div class="input-group">
+                                            <input class="form-control" name="contactDisplayProperty" value="@Model.ContactDisplayProperty" type="text" disabled>
+                                            <button class="btn btn-sm btn-primary blue" id="OpenContactLookupTableButton" type="button">
+                                                <i class="fa fa-search"></i> @L("Contact") @L("Pick")
+                                            </button>
+                                            <button class="btn btn-danger btn-icon" type="button" id="ClearContactDisplayPropertyButton">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                        <div class="alert alert-info mt-3">
+                                            Refakatçinin iletişim bilgisi daha önceden eklenmiş ise lütfen iletişim seç kısmında seçiniz. Ekli değilse aşağıya bilgilerini yazınız.
+                                        </div>
+                                    </div>
+                                    <div class="row" id="contactInfos" style="display: @((Model.IsEditMode && Model.Funeral.ContactId!=null && Model.Funeral.ContactId!=0) ? "none": "flex") ">
+                                        <div class="col col-md-4 col-sm-12">
+                                            <label class="form-label" for="Funeral_Contact_Name">@L("Name")</label>
+                                            <input class="form-control" id="Funeral_Contact_Name" type="text" name="contact[name]" required />
+                                        </div>
+                                        <div class="col col-md-4 col-sm-12">
+                                            <label class="form-label" for="Funeral_Contact_Surname">@L("Surname")</label>
+                                            <input class="form-control" id="Funeral_Contact_Surname" type="text" name="contact[surname]" required />
+                                        </div>
+                                        <div class="col col-md-4 col-sm-12">
+                                            <label class="form-label" for="Funeral_Contact_Identify">@L("IdentifyNo")</label>
+                                            <input class="form-control" id="Funeral_Contact_Identify" type="text" name="contact[identify]" />
+                                        </div>
+                                        <div class="col col-sm-12 my-3">
+                                            <label class="form-label" for="Funeral_Contact_Phone">@L("Phone")</label>
+                                            <input class="form-control" id="Funeral_Contact_Phone" type="text" name="contact[details][0][value]" required />
+                                            <input name="contact[details][0][type]" value="1" hidden />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+    					</div>
+    					<!--begin::Step 1-->
+                        <div class="flex-column" data-kt-stepper-element="content">
+                            <form id="funeralAddressInfos">
+                                <input class="form-control" name="id" value="" type="text" disabled hidden>
+                                <input class="form-control" name="regionId" value="" type="text" disabled hidden>
+
+                                <div class="row">
+                                    <div class="col col-md-6">
+                                        <label class="form-label" for="countryId">@L("Country")</label>
+                                        <select class="form-control select2" id="address_countryId_" name="countryId" required="required">
+                                            <option value="" disabled selected>@L("SelectACountry")</option>
+                                        </select>
+                                    </div>
+                                    <div class="col col-md-6">
+                                        <label class="form-label" for="cityId">@L("City")</label>
+                                        <select class="form-control select2" id="address_cityId_" name="cityId" required="required">
+                                            <option value="" disabled selected>@L("SelectACountry")</option>
+                                        </select>
+                                    </div>
+                                    <div class="my-3">
+                                        <label class="form-label" for="districtId">@L("District")</label>
+                                        <select class="form-control select2" id="address_districtId_" name="districtId" required="required">
+                                            <option value="" disabled selected>@L("SelectACity")</option>
+                                        </select>
+                                    </div>
+                                    <div class="my-3">
+                                        <label class="form-label" for="quarterId">@L("Quarter")</label>
+                                        <select class="form-control select2" id="address_quarterId_" name="quarterId" required="required">
+                                            <option value="" disabled selected>@L("SelectAQuarter")</option>
+                                        </select>
+                                    </div>
+                                    <div class="col col-12">
+                                        <label class="form-label" for="Funeral_Address_Region">@L("Region")</label>
+                                        <input class="form-control" id="Funeral_Address_Region" type="text" name="region" value="@Model.RegionDisplayProperty" required readonly style="pointer-events: none;" />
+                                    </div>
+                                    <div class="col col-12 my-3">
+                                        <label class="form-label" for="Funeral_Address_Address">@L("Address")</label>
+                                        <textarea class="form-control" required id="Funeral_Address_Address" name="address" maxlength="300"></textarea>
+                                    </div>
+                                    <div class="col col-12 my-3">
+                                        <label class="form-label" for="Funeral_Address_Description">@L("Description")</label>
+                                        <textarea class="form-control" id="Funeral_Address_Description" name="description" maxlength="300"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="flex-column" data-kt-stepper-element="content">
+                            <form id="funeralDocumentsInfos">
+                                <div class="row">
+                                    <div class="alert alert-info mt-3">Vefat eden kişinin eklenebilmesi için ölüm belgesi gereklidir.<br/>Dosyayı seçtikten sonra <i class="fas fa-check"></i> tıklayarak onaylamayı unutmayınız.</div>
+                                    <div class="col col-12">
+                                        <span class="btn btn-primary fileinput-button">
+                                            <i class="fas fa-plus"></i>
+                                            <span>Belgeleri seçin</span>
+                                            <input id="funeralDocuments" type="file" multiple accept=".jpg,.pdf">
+                                        </span>
+                                    </div>
+                                <div class="col col-12 my-3" id="funeralDocumentTemplate" style="display:none;">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input-mask documentId" hidden>
+                                        <input type="text" class="form-control input-mask documentName" value="Belge adı" disabled>
+                                        <input type="text" class="form-control input-mask documentPath" value="Path" hidden>
+                                        <input type="text" class="form-control input-mask documentIndex" hidden>
+                                        <input type="file" hidden />
+                                        <select class="form-select m-input m-input--square">
+                                            @{
+                                                var typeList = Html.GetEnumSelectList(typeof(FuneralDocumentType));
+                                                foreach (var selectOption in typeList)
+                                                {
+                                                    <option>@L("Enum_FuneralDocumentType_" + selectOption.Value)</option>
+                                                }
+                                            }
+                                        </select>
+
+                                        <button class="btn btn-success btn-sm confirmDocument" type="button">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+
+                                        <button class="btn btn-primary btn-sm showDocument" type="button">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm deleteDocument" type="button">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                    <div id="allDocuments"></div>
+                                </div>
+                            </form>
+                            
+                        </div>
+                        <div class="flex-column" data-kt-stepper-element="content">
+                            <form id="funeralFlightInfos">
+                                <input class="form-control" id="FuneralFlight_LangingAirportId" value="" type="text" name="id" hidden />
+
+                                <div class="row">
+                                    <div class="col col-md-6">
+                                    <label class="form-label" for="airlineCompanyId">@L("AirlineCompany")</label>
+                                        <select class="form-control select2" id="flight_airlineCompanyId_" name="airlineCompanyId" required="required">
+                                            <option value="" disabled selected>@L("SelectAArlineCompany")</option>
+                                        </select>
+                                    </div>
+                                    <div class="col col-md-6">
+                                        <label class="form-label" for="FuneralFlight_Code">@L("Code")</label>
+                                        <input class="form-control" id="FuneralFlight_Code" type="text" name="code" value="" required maxlength="@TDV.Burial.FuneralFlightConsts.MaxCodeLength" minlength="@TDV.Burial.FuneralFlightConsts.MinCodeLength" />
+                                    </div>
+                                    <div class="col col-md-6">
+                                        <label class="form-label" for="liftOffAirportId">@L("LiftOff") @L("Airport")</label>
+                                        <select class="form-control select2" id="flight_liftOffAirportId_" name="liftOffAirportId" required="required">
+                                            <option value="" disabled selected>@L("SelectAAirport")</option>
+                                        </select>
+                                    </div>
+                                    <div class="col col-md-6">
+                                    <label class="form-label" for="countryId">@L("Landing") @L("Airport")</label>
+                                        <select class="form-control select2" id="flight_langingAirportId_" name="langingAirportId" required="required">
+                                            <option value="" disabled selected>@L("SelectAAirport")</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col col-6 my-3">
+                                        <label class="form-label" for="flight_LiftOffDate">@L("LiftOffDate")</label>
+                                        <input class="form-control m-input date-picker" id="flight_LiftOffDate" value="" type="text" name="liftOffDate" />
+                                    </div>
+                                    <div class="col col-6 my-3">
+                                        <label class="form-label" for="flight_LandingDate">@L("LandingDate")</label>
+                                        <input class="form-control m-input date-picker" id="flight_LandingDate" value="" type="text" name="landingDate" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="flex-column" data-kt-stepper-element="content">
+                            ücretlendirme alanı
+                        </div>
+    				</div>
+    				<!--end::Group-->
+    				<!--begin::Actions-->
+    				<div class="d-flex flex-stack">
+    					<!--begin::Wrapper-->
+    					<div class="me-2">
+    						<button type="button" class="btn btn-light btn-active-light-primary" data-kt-stepper-action="previous"> @L("Back") </button>
+    					</div>
+    					<!--end::Wrapper-->
+    					<!--begin::Wrapper-->
+    					<div class="mb-3">
+                            <button type="button" class="btn btn-primary" id="saveBtn" data-kt-stepper-action="submit">
+    							<span class="indicator-label"> @L("Submit") </span>
+    							<span class="indicator-progress"> Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+    							</span>
+    						</button>
+                            <button type="button" class="btn btn-primary" id="saveAsTemplate"> @L("SaveAsTemplate") </button>
+    						<button type="button" class="btn btn-primary" data-kt-stepper-action="next"> @L("Continue") </button>
+                            <button type="button" class="btn btn-primary" id="debug-stepper"> @L("Continue") DEBUG </button>
+    					</div>
+    					<!--end::Wrapper-->
+    				</div>
+    				<!--end::Actions-->
+    			</div>
+    			<!--end::Form-->
+    		</div>
+    		<!--end::Stepper-->
+    	</div>
+    </div>

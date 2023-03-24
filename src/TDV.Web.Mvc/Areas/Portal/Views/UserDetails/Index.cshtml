@@ -1,0 +1,81 @@
+﻿@using TDV.Authorization
+@using TDV.Web.Areas.Portal.Models.UserDetails
+@using TDV.Web.Areas.Portal.Startup
+@model UserDetailsViewModel
+@{
+ViewBag.CurrentPageName = PortalPageNames.Common.UserDetails;
+}
+@section Scripts
+{
+<script abp-src="/view-resources/Areas/Portal/Views/UserDetails/Index.js" asp-append-version="true"></script>
+}
+
+<abp-page-subheader title='@L("UserDetails")' description='@L("UserDetailsHeaderInfo")'>
+    <button id="ExportToExcelButton" class="btn btn-outline btn-outline-success btn-active-light-success me-1"><i class="fa fa-file-excel"></i> @L("ExportToExcel")</button>
+
+    @if (IsGranted(AppPermissions.Pages_UserDetails_Create))
+    {
+    <button id="CreateNewUserDetailButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewUserDetail")</button>
+    }
+</abp-page-subheader>
+
+<div class="@(await GetContainerClass())">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <div class="form">
+                <div class="row align-items-center mb-4">
+                    <div class="col-xl-12">
+
+                        <div class="my-3">
+                            <div class="input-group">
+                                <input type="text" id="UserDetailsTableFilter" class="form-control reload-on-change" placeholder='@L("SearchWithThreeDot")' value="@Model.FilterText">
+                                <button id="GetUserDetailsButton" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="AdvacedAuditFiltersArea" style="display: none" class="row mb-4">
+                <div class="col-md-12">
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="UserNameFilterId">(@L("User")) @L("Name")</label>
+                        <input type="text" class="form-control" name="userNameFilter" id="UserNameFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="ContactDisplayPropertyFilterId">(@L("Contact")) @L("DisplayProperty")</label>
+                        <input type="text" class="form-control" name="contactDisplayPropertyFilter" id="ContactDisplayPropertyFilterId">
+                    </div>
+                </div>
+                <div class="col-md-12 mt-5">
+                    <button class="btn btn-secondary btn-sm" id="btn-reset-filters">Reset</button>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-xl-12">
+                    <span id="ShowAdvancedFiltersSpan" class="text-muted clickable-item"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                    <span id="HideAdvancedFiltersSpan" class="text-muted clickable-item" style="display: none"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <table id="UserDetailsTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>@L("Actions")</th>
+                            <th>@L("UserName")</th>
+                            <th>@L("ContactDisplayProperty")</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

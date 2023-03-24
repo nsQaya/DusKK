@@ -1,0 +1,133 @@
+﻿@using TDV.Burial;
+
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Funerals
+@model CreateOrEditFuneralModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFuneral")) : L("CreateNewFuneral")))
+
+<div class="modal-body">
+    <div id="FuneralInformationsTab">
+        <form name="FuneralInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Funeral.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTypeDescription">@L("FuneralType")</label>
+                <div class="input-group">
+                    <input class="form-control" id="FuneralTypeDescription" name="funeralTypeDescription" value="@Model.FuneralTypeDescription" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenFuneralTypeLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearFuneralTypeDescriptionButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="Funeral_TypeId" value="@Model.Funeral.TypeId" type="text" name="typeId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="Funeral_TypeId" value="" type="text" name="typeId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="ContactDisplayProperty">@L("Contact")</label>
+                <div class="input-group">
+                    <input class="form-control" id="ContactDisplayProperty" name="contactDisplayProperty" value="@Model.ContactDisplayProperty" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenContactLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearContactDisplayPropertyButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="Funeral_ContactId" value="@Model.Funeral.ContactId" type="text" name="contactId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="Funeral_ContactId" value="" type="text" name="contactId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyDisplayProperty">@L("Company")</label>
+                <div class="input-group">
+                    <input class="form-control" id="CompanyDisplayProperty" name="companyDisplayProperty" value="@Model.CompanyDisplayProperty" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenCompanyLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearCompanyDisplayPropertyButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+           
+
+            <div class="my-3">
+                <label class="form-label" for="OrganizationUnitDisplayName">@L("OrganizationUnit")</label>
+                <div class="input-group">
+                    <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" value="@Model.OrganizationUnitDisplayName" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenOrganizationUnitLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearOrganizationUnitDisplayNameButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="Funeral_OrganizationUnitId" value="@Model.Funeral.OwnerOrgUnitId" type="text" name="organizationUnitId" hidden />
+            }
+            else
+            {
+            <input class="form-control" id="Funeral_OrganizationUnitId" value="" type="text" name="organizationUnitId" hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="Funeral_TransferNo">@L("TransferNo")</label>
+                <input class="form-control" id="Funeral_TransferNo" value="@Model.Funeral.TransferNo" type="text" name="transferNo" required maxlength="@TDV.Burial.FuneralConsts.MaxTransferNoLength" minlength="@TDV.Burial.FuneralConsts.MinTransferNoLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Funeral_MemberNo">@L("MemberNo")</label>
+                <input class="form-control" id="Funeral_MemberNo" value="@Model.Funeral.MemberNo" type="text" name="memberNo" required maxlength="@TDV.Burial.FuneralConsts.MaxMemberNoLength" minlength="@TDV.Burial.FuneralConsts.MinMemberNoLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Funeral_Name">@L("Name")</label>
+                <input class="form-control" id="Funeral_Name" value="@Model.Funeral.Name" type="text" name="name" required maxlength="@TDV.Burial.FuneralConsts.MaxNameLength" minlength="@TDV.Burial.FuneralConsts.MinNameLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Funeral_Surname">@L("Surname")</label>
+                <input class="form-control" id="Funeral_Surname" value="@Model.Funeral.Surname" type="text" name="surname" required maxlength="@TDV.Burial.FuneralConsts.MaxSurnameLength" minlength="@TDV.Burial.FuneralConsts.MinSurnameLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Funeral_TcNo">@L("TcNo")</label>
+                <input class="form-control m-input" id="Funeral_TcNo" value="@Model.Funeral.TcNo.Value.ToString(CultureInfo.InvariantCulture)" type="number" name="tcNo" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Funeral_PassportNo">@L("PassportNo")</label>
+                <input class="form-control" id="Funeral_PassportNo" value="@Model.Funeral.PassportNo" type="text" name="passportNo" required maxlength="@TDV.Burial.FuneralConsts.MaxPassportNoLength" minlength="@TDV.Burial.FuneralConsts.MinPassportNoLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Funeral_LadingNo">@L("LadingNo")</label>
+                <input class="form-control" id="Funeral_LadingNo" value="@Model.Funeral.LadingNo" type="text" name="ladingNo" required maxlength="@TDV.Burial.FuneralConsts.MaxLadingNoLength" minlength="@TDV.Burial.FuneralConsts.MinLadingNoLength" />
+            </div>
+
+            @{
+            var selectListStatu = Html.GetEnumSelectList(typeof(FuneralStatus));
+            foreach (var selectOption in selectListStatu) { selectOption.Text = L("Enum_FuneralStatus_" + selectOption.Value); }
+            }
+            <div class="my-3">
+                <label class="form-label" for="Funeral_Statu">@L("Statu")</label>
+                <select class="form-select m-input m-input--square" name="statu" id="Funeral_Statu" asp-for="@Model.Funeral.Status" asp-items="@selectListStatu">
+                </select>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

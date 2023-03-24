@@ -1,0 +1,34 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralTypes
+@model CreateOrEditFuneralTypeModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFuneralType")) : L("CreateNewFuneralType")))
+
+<div class="modal-body">
+    <div id="FuneralTypeInformationsTab">
+        <form name="FuneralTypeInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.FuneralType.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralType_Description">@L("Description")</label>
+                <input class="form-control" id="FuneralType_Description" value="@Model.FuneralType.Description" type="text" name="description" required maxlength="@TDV.Burial.FuneralTypeConsts.MaxDescriptionLength" minlength="@TDV.Burial.FuneralTypeConsts.MinDescriptionLength" />
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="FuneralType_IsDefault" name="isDefault" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.FuneralType.IsDefault ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsDefault")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

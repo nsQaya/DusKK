@@ -1,0 +1,65 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Districts
+@model CreateOrEditDistrictModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditDistrict")) : L("CreateNewDistrict")))
+
+<div class="modal-body">
+    <div id="DistrictInformationsTab">
+        <form name="DistrictInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.District.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="cityId">@L("Country")</label>
+                @Html.DropDownList("countryId", new SelectList(Model.CountryList,"Id","DisplayName", (Model.IsEditMode ? Model.District.CountryId.ToString() : "")),@L("SelectACountry"), new { @class = "form-control select2" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="cityId">@L("City")</label>
+                @{
+                    if (Model.DistrictCityList == null)
+                    {
+                        <select class="form-control select2" id="cityId" name="cityId" required="required">
+                            <option value="">@L("SelectACountry")</option>
+                        </select>
+                    }
+                    else
+                    {
+                        @Html.DropDownList("cityId", new SelectList(Model.DistrictCityList, "Id", "DisplayName", (Model.IsEditMode ? Model.District.CityId.ToString() : "")), @L("SelectACity"), new { @class = "form-control select2", @required = "required" });
+                    }
+                }
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="regionId">@L("Region")</label>
+                @Html.DropDownList("regionId", new SelectList(Model.DistrictRegionList,"Id","DisplayName", (Model.IsEditMode ? Model.District.RegionId.ToString() : "")),@L("SelectARegion"), new { @class = "form-control select2" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="District_Name">@L("Name")</label>
+                <input class="form-control" id="District_Name" value="@Model.District.Name" type="text" name="name" required maxlength="@TDV.Location.DistrictConsts.MaxNameLength" minlength="@TDV.Location.DistrictConsts.MinNameLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="District_Order">@L("Order")</label>
+                <input class="form-control m-input" id="District_Order" value="@Model.District.Order.ToString(CultureInfo.InvariantCulture)" type="number" name="order" />
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="District_IsActive" name="isActive" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.District.IsActive ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsActive")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

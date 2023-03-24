@@ -1,0 +1,173 @@
+﻿@using TDV.Authorization
+@using TDV.Web.Areas.Portal.Models.FuneralTranportOrders
+@using TDV.Web.Areas.Portal.Startup
+@model FuneralTranportOrdersViewModel
+@{
+ViewBag.CurrentPageName = PortalPageNames.Common.FuneralTranportOrders;
+}
+@section Scripts
+{
+<script abp-src="/view-resources/Areas/Portal/Views/FuneralTranportOrders/Index.js" asp-append-version="true"></script>
+}
+
+<abp-page-subheader title='@L("FuneralTranportOrders")' description='@L("FuneralTranportOrdersHeaderInfo")'>
+    <button id="ExportToExcelButton" class="btn btn-outline btn-outline-success btn-active-light-success me-1"><i class="fa fa-file-excel"></i> @L("ExportToExcel")</button>
+
+    @if (IsGranted(AppPermissions.Pages_FuneralTranportOrders_Create))
+    {
+    <button id="CreateNewFuneralTranportOrderButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewFuneralTranportOrder")</button>
+    }
+</abp-page-subheader>
+
+<div class="@(await GetContainerClass())">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <div class="form">
+                <div class="row align-items-center mb-4">
+                    <div class="col-xl-12">
+
+                        <div class="my-3">
+                            <div class="input-group">
+                                <input type="text" id="FuneralTranportOrdersTableFilter" class="form-control reload-on-change" placeholder='@L("SearchWithThreeDot")' value="@Model.FilterText">
+                                <button id="GetFuneralTranportOrdersButton" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="AdvacedAuditFiltersArea" style="display: none" class="row mb-4">
+                <div class="col-md-12">
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinStartDateFilterId">@L("StartDateRange")</label>
+                        <div class="input-group">
+                            <input class="form-control m-input date-picker startDate" type="text" placeholder="@L(" MinValue")" id="MinStartDateFilterId">
+                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                            <input class="form-control m-input date-picker endDate" type="text" placeholder="@L(" MaxValue")" id="MaxStartDateFilterId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinStartKMFilterId">@L("MinMax") @L("StartKM")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minStartKMFilter" id="MinStartKMFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxStartKMFilter" id="MaxStartKMFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinOperationDateFilterId">@L("OperationDateRange")</label>
+                        <div class="input-group">
+                            <input class="form-control m-input date-picker startDate" type="text" placeholder="@L(" MinValue")" id="MinOperationDateFilterId">
+                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                            <input class="form-control m-input date-picker endDate" type="text" placeholder="@L(" MaxValue")" id="MaxOperationDateFilterId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinOperationKMFilterId">@L("MinMax") @L("OperationKM")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minOperationKMFilter" id="MinOperationKMFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxOperationKMFilter" id="MaxOperationKMFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinDeliveryDateFilterId">@L("DeliveryDateRange")</label>
+                        <div class="input-group">
+                            <input class="form-control m-input date-picker startDate" type="text" placeholder="@L(" MinValue")" id="MinDeliveryDateFilterId">
+                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                            <input class="form-control m-input date-picker endDate" type="text" placeholder="@L(" MaxValue")" id="MaxDeliveryDateFilterId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinDeliveryKMFilterId">@L("MinMax") @L("DeliveryKM")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minDeliveryKMFilter" id="MinDeliveryKMFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxDeliveryKMFilter" id="MaxDeliveryKMFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinEndDateFilterId">@L("EndDateRange")</label>
+                        <div class="input-group">
+                            <input class="form-control m-input date-picker startDate" type="text" placeholder="@L(" MinValue")" id="MinEndDateFilterId">
+                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                            <input class="form-control m-input date-picker endDate" type="text" placeholder="@L(" MaxValue")" id="MaxEndDateFilterId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="MinEndKMFilterId">@L("MinMax") @L("EndKM")</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MinValue")" name="minEndKMFilter" id="MinEndKMFilterId" />
+                            <input type="number" class="form-control m-input reload-on-keyup" placeholder="@L(" MaxValue")" name="maxEndKMFilter" id="MaxEndKMFilterId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="ReceiverFullNameFilterId">@L("ReceiverFullName")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="receiverFullNameFilter" id="ReceiverFullNameFilterId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="ReceiverKinshipDegreeFilterId">@L("ReceiverKinshipDegree")</label>
+                        <input type="text" class="form-control reload-on-keyup" name="receiverKinshipDegreeFilter" id="ReceiverKinshipDegreeFilterId">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="my-3">
+                        <label class="form-label" for="FuneralWorkOrderDetailDescriptionFilterId">(@L("FuneralWorkOrderDetail")) @L("Description")</label>
+                        <input type="text" class="form-control" name="funeralWorkOrderDetailDescriptionFilter" id="FuneralWorkOrderDetailDescriptionFilterId">
+                    </div>
+                </div>
+                <div class="col-md-12 mt-5">
+                    <button class="btn btn-secondary btn-sm" id="btn-reset-filters">Reset</button>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-xl-12">
+                    <span id="ShowAdvancedFiltersSpan" class="text-muted clickable-item"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                    <span id="HideAdvancedFiltersSpan" class="text-muted clickable-item" style="display: none"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <table id="FuneralTranportOrdersTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>@L("Actions")</th>
+                            <th>@L("StartDate")</th>
+                            <th>@L("StartKM")</th>
+                            <th>@L("OperationDate")</th>
+                            <th>@L("OperationKM")</th>
+                            <th>@L("DeliveryDate")</th>
+                            <th>@L("DeliveryKM")</th>
+                            <th>@L("EndDate")</th>
+                            <th>@L("EndKM")</th>
+                            <th>@L("ReceiverFullName")</th>
+                            <th>@L("ReceiverKinshipDegree")</th>
+                            <th>@L("FuneralWorkOrderDetailDescription")</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

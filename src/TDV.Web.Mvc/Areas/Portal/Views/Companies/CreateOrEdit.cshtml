@@ -1,0 +1,165 @@
+﻿@using TDV.Corporation;
+
+@using System.Globalization
+@using TDV.Authorization
+@using TDV.Web.Areas.Portal.Models.Companies
+@using TDV.Web.Areas.Portal.Startup
+@model CreateOrEditCompanyViewModel
+@using Abp.Extensions
+@using TDV.Web.TagHelpers
+@{
+ViewBag.CurrentPageName = PortalPageNames.Common.Companies;
+}
+@section Scripts
+{
+<script abp-src="/view-resources/Areas/Portal/Views/Companies/CreateOrEdit.js" asp-append-version="true"></script>
+}
+
+@{
+var breadcrumbs = new List<BreadcrumbItem>()
+    {
+    new BreadcrumbItem("/Portal/Companies", L("Companies")),
+    new BreadcrumbItem(Model.IsEditMode ? L("Edit") : L("Create"))
+    };
+    }
+    <abp-page-subheader title='@(Model.IsEditMode ? (L("EditCompany")) : L("CreateNewCompany"))' breadcrumbs="breadcrumbs">
+    </abp-page-subheader>
+
+    <div class="@(await GetContainerClass())">
+        <div class="card card-custom gutter-b">
+            <form name="CompanyInformationsForm" role="form" novalidate class="form-validation">
+                <div class="card-body">
+                    <div class="form">
+                        <div id="CompanyInformationsTab">
+                            
+                        @if (Model.IsEditMode)
+                        {
+                        <input type="hidden" name="id" value="@Model.Company.Id" />
+                        }
+
+                        <div class="row my-3">
+                            <div class="col-sm-12 col-md-12">
+                                <label class="form-label" for="name">@L("Name")</label>
+                                <input class="form-control" id="Company_Name" value="@Model.OrganizationUnitDisplayName" type="text" name="name" required maxlength="@TDV.Corporation.CompanyConsts.MaxTaxAdministrationLength" maxlength="@Abp.Organizations.OrganizationUnit.MaxDisplayNameLength" />
+                            </div>
+                        </div>
+
+                        @if (Model.IsEditMode)
+                        {
+                        <input class="form-control" id="Company_OrganizationUnitId" value="@Model.Company.OrganizationUnitId" type="text" name="organizationUnitId" required hidden />
+                        }
+                        else
+                        {
+                        <input class="form-control" id="Company_OrganizationUnitId" value="" type="text" name="organizationUnitId" required hidden />
+                        }
+                        <div class="row my-3">
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="countryId">@L("Country")</label>
+                                @Html.DropDownList("countryId", new SelectList(Model.CountryList,"Id","DisplayName", (Model.IsEditMode ? Model.CountryId.ToString() : "")),@L("SelectACountry"), new { @class = "form-control select2" , @required="required" })
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="cityId">@L("City")</label>
+                                @Html.DropDownList("cityId", new SelectList(Model.CityList,"Id","DisplayName", (Model.IsEditMode ? Model.Company.CityId.ToString() : "")),@L("SelectACity"), new { @class = "form-control select2" , @required="required" })
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="districtId">@L("District")</label>
+                                @Html.DropDownList("districtId", new SelectList(Model.DistrictList,"Id","DisplayName", (Model.IsEditMode ? Model.DistrictId.ToString() : "")),@L("SelectADistrict"), new { @class = "form-control select2" , @required="required" })
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="quarterId">@L("Quarter")</label>
+                                @Html.DropDownList("quarterId", new SelectList(Model.QuarterList,"Id","DisplayName", (Model.IsEditMode ? Model.Company.QuarterId.ToString() : "")),@L("SelectAQuarter"), new { @class = "form-control select2" , @required="required" })
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-check form-check-custom">
+                                    <input id="Company_IsActive" name="isActive" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.IsEditMode ? (Model.Company.IsActive ?"checked=\"checked\"":""): "checked") />
+                                    <span class="form-check-label">
+                                        @L("IsActive")
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                @{
+                                var selectListType = Html.GetEnumSelectList(typeof(CompanyType));
+                                foreach (var selectOption in selectListType) { selectOption.Text = L("Enum_CompanyType_" + selectOption.Value); }
+                                }
+                                <div class="my-3">
+                                    <label class="form-label" for="Company_Type">@L("Type")</label>
+                                    <select class="form-select m-input m-input--square" name="type" id="Company_Type" asp-for="@Model.Company.Type" asp-items="@selectListType">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+           
+
+                        <div class="row my-3">
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_TaxAdministration">@L("TaxAdministration")</label>
+                                <input class="form-control" id="Company_TaxAdministration" value="@Model.Company.TaxAdministration" type="text" name="taxAdministration" required maxlength="@TDV.Corporation.CompanyConsts.MaxTaxAdministrationLength" minlength="@TDV.Corporation.CompanyConsts.MinTaxAdministrationLength" />
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_TaxNo">@L("TaxNo")</label>
+                                <input class="form-control" id="Company_TaxNo" value="@Model.Company.TaxNo" type="text" name="taxNo" required maxlength="@TDV.Corporation.CompanyConsts.MaxTaxNoLength" minlength="@TDV.Corporation.CompanyConsts.MinTaxNoLength" />
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_Website">@L("Website")</label>
+                                <input class="form-control" id="Company_Website" value="@Model.Company.Website" type="text" name="website" />
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_Phone">@L("Phone")</label>
+                                <input class="form-control" id="Company_Phone" value="@Model.Company.Phone" type="text" name="phone" required maxlength="@TDV.Corporation.CompanyConsts.MaxPhoneLength" minlength="@TDV.Corporation.CompanyConsts.MinPhoneLength" />
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_Fax">@L("Fax")</label>
+                                <input class="form-control" id="Company_Fax" value="@Model.Company.Fax" type="text" name="fax" required maxlength="@TDV.Corporation.CompanyConsts.MaxFaxLength" minlength="@TDV.Corporation.CompanyConsts.MinFaxLength" />
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_Email">@L("Email")</label>
+                                <input class="form-control" id="Company_Email" value="@Model.Company.Email" type="text" name="email" required maxlength="@TDV.Corporation.CompanyConsts.MaxEmailLength" minlength="@TDV.Corporation.CompanyConsts.MinEmailLength" />
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_Address">@L("Address")</label>
+                                <textarea class="form-control" id="Company_Address" type="text" name="address" required>@Model.Company.Address</textarea>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_RunningCode">@L("RunningCode")</label>
+                                <input class="form-control" id="Company_RunningCode" value="@Model.Company.RunningCode" type="text" name="runningCode" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <label class="form-label" for="Company_Prefix">@L("Prefix")</label>
+                                <input class="form-control" id="Company_Prefix" value="@Model.Company.Prefix" type="text" name="prefix" />
+                            </div>
+                        </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12">
+                            <button type="button" id="saveBtn" class="btn btn-success float-right"><i class="fa fa-save"></i> @L("Save")</button>
+                            @if (!Model.IsEditMode)
+                            {
+                            <button type="button" id="saveAndNewBtn" class="btn btn-success float-right"><i class="fa fa-save"></i> @L("SaveAndNew")</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

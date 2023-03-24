@@ -1,0 +1,60 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Funerals
+@model FuneralViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="FuneralInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("TransferNo") :</h6>
+                @Model.Funeral.TransferNo
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("MemberNo") :</h6>
+                @Model.Funeral.MemberNo
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Name") :</h6>
+                @Model.Funeral.Name
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Surname") :</h6>
+                @Model.Funeral.Surname
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("TcNo") :</h6>
+                @Model.Funeral.TcNo
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("PassportNo") :</h6>
+                @Model.Funeral.PassportNo
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("LadingNo") :</h6>
+                @Model.Funeral.LadingNo
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Statu") :</h6>
+                @L("Enum_FuneralStatus_" + (int)Model.Funeral.Status)
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("FuneralType")) @L("Description") :</h6>
+                @Model.FuneralTypeDescription
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Contact")) @L("DisplayProperty") :</h6>
+                @Model.ContactDisplayProperty
+            </div>
+            
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

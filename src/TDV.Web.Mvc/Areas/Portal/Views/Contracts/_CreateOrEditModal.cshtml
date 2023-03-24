@@ -1,0 +1,58 @@
+﻿@using TDV.Payment;
+
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Contracts
+@model CreateOrEditContractModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditContract")) : L("CreateNewContract")))
+
+<div class="modal-body">
+    <div id="ContractInformationsTab">
+        <form name="ContractInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Contract.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="regionId">@L("Region")</label>
+                @Html.DropDownList("regionId", new SelectList(Model.ContractRegionList,"Id","DisplayName", (Model.IsEditMode ? Model.Contract.RegionId.ToString() : "")),@L("SelectARegion"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="companyId">@L("Company")</label>
+                @Html.DropDownList("companyId", new SelectList(Model.ContractCompanyList,"Id","DisplayName", (Model.IsEditMode ? Model.Contract.CompanyId.ToString() : "")),@L("SelectACompany"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Contract_Formule">@L("Formule")</label>
+                <input class="form-control" id="Contract_Formule" value="@Model.Contract.Formule" type="text" name="formule" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Contract_StartDate">@L("StartDate")</label>
+                <input class="form-control m-input date-picker" id="Contract_StartDate" type="text" name="startDate" value="@Model.Contract.StartDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Contract_EndDate">@L("EndDate")</label>
+                <input class="form-control m-input date-picker" id="Contract_EndDate" type="text" name="endDate" value="@Model.Contract.EndDate" />
+            </div>
+
+            @{
+            var selectListCurrencyType = Html.GetEnumSelectList(typeof(CurrencyType));
+            foreach (var selectOption in selectListCurrencyType) { selectOption.Text = L("Enum_CurrencyType_" + selectOption.Value); }
+            }
+            <div class="my-3">
+                <label class="form-label" for="Contract_CurrencyType">@L("CurrencyType")</label>
+                <select class="form-select m-input m-input--square" name="currencyType" id="Contract_CurrencyType" asp-for="@Model.Contract.CurrencyType" asp-items="@selectListCurrencyType">
+                </select>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,114 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralFlights
+@model CreateOrEditFuneralFlightModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFuneralFlight")) : L("CreateNewFuneralFlight")))
+
+<div class="modal-body">
+    <div id="FuneralFlightInformationsTab">
+        <form name="FuneralFlightInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.FuneralFlight.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralName">@L("Funeral")</label>
+                <div class="input-group">
+                    <input class="form-control" id="FuneralName" name="funeralName" value="@Model.FuneralName" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenFuneralLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearFuneralNameButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="FuneralFlight_FuneralId" value="@Model.FuneralFlight.FuneralId" type="text" name="funeralId" hidden />
+            }
+            else
+            {
+            <input class="form-control" id="FuneralFlight_FuneralId" value="" type="text" name="funeralId" hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="AirlineCompanyCode">@L("AirlineCompany")</label>
+                <div class="input-group">
+                    <input class="form-control" id="AirlineCompanyCode" name="airlineCompanyCode" value="@Model.AirlineCompanyCode" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenAirlineCompanyLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearAirlineCompanyCodeButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="FuneralFlight_AirlineCompanyId" value="@Model.FuneralFlight.AirlineCompanyId" type="text" name="airlineCompanyId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="FuneralFlight_AirlineCompanyId" value="" type="text" name="airlineCompanyId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="AirportName">@L("Airport")</label>
+                <div class="input-group">
+                    <input class="form-control" id="AirportName" name="airportName" value="@Model.AirportName" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenAirportLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearAirportNameButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="FuneralFlight_LiftOffAirportId" value="@Model.FuneralFlight.LiftOffAirportId" type="text" name="liftOffAirportId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="FuneralFlight_LiftOffAirportId" value="" type="text" name="liftOffAirportId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="AirportName2">@L("Airport")</label>
+                <div class="input-group">
+                    <input class="form-control" id="AirportName2" name="airportName2" value="@Model.AirportName2" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenAirport2LookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearAirportName2Button"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="FuneralFlight_LangingAirportId" value="@Model.FuneralFlight.LangingAirportId" type="text" name="langingAirportId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="FuneralFlight_LangingAirportId" value="" type="text" name="langingAirportId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralFlight_No">@L("No")</label>
+                <input class="form-control" id="FuneralFlight_No" value="@Model.FuneralFlight.No" type="text" name="no" maxlength="@TDV.Burial.FuneralFlightConsts.MaxNoLength" minlength="@TDV.Burial.FuneralFlightConsts.MinNoLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralFlight_Code">@L("Code")</label>
+                <input class="form-control" id="FuneralFlight_Code" value="@Model.FuneralFlight.Code" type="text" name="code" required maxlength="@TDV.Burial.FuneralFlightConsts.MaxCodeLength" minlength="@TDV.Burial.FuneralFlightConsts.MinCodeLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralFlight_LiftOffDate">@L("LiftOffDate")</label>
+                <input class="form-control m-input date-picker" id="FuneralFlight_LiftOffDate" type="text" name="liftOffDate" value="@Model.FuneralFlight.LiftOffDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralFlight_LandingDate">@L("LandingDate")</label>
+                <input class="form-control m-input date-picker" id="FuneralFlight_LandingDate" type="text" name="landingDate" value="@Model.FuneralFlight.LandingDate" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

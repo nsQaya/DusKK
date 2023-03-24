@@ -1,0 +1,49 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Currencies
+@model CreateOrEditCurrencyModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditCurrency")) : L("CreateNewCurrency")))
+
+<div class="modal-body">
+    <div id="CurrencyInformationsTab">
+        <form name="CurrencyInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Currency.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="Currency_Code">@L("Code")</label>
+                <input class="form-control" id="Currency_Code" value="@Model.Currency.Code" type="text" name="code" required maxlength="@TDV.Constants.CurrencyConsts.MaxCodeLength" minlength="@TDV.Constants.CurrencyConsts.MinCodeLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Currency_Symbol">@L("Symbol")</label>
+                <input class="form-control" id="Currency_Symbol" value="@Model.Currency.Symbol" type="text" name="symbol" required maxlength="@TDV.Constants.CurrencyConsts.MaxSymbolLength" minlength="@TDV.Constants.CurrencyConsts.MinSymbolLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Currency_OrderNumber">@L("OrderNumber")</label>
+                <input class="form-control m-input" id="Currency_OrderNumber" value="@Model.Currency.OrderNumber.ToString(CultureInfo.InvariantCulture)" type="number" name="orderNumber" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Currency_NumberCode">@L("NumberCode")</label>
+                <input class="form-control m-input" id="Currency_NumberCode" value="@Model.Currency.NumberCode.ToString(CultureInfo.InvariantCulture)" type="number" name="numberCode" />
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="Currency_IsActive" name="isActive" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.Currency.IsActive ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsActive")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

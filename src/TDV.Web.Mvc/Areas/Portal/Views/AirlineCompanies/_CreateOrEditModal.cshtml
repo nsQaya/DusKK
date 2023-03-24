@@ -1,0 +1,42 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.AirlineCompanies
+@model CreateOrEditAirlineCompanyModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditAirlineCompany")) : L("CreateNewAirlineCompany")))
+
+<div class="modal-body">
+    <div id="AirlineCompanyInformationsTab">
+        <form name="AirlineCompanyInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.AirlineCompany.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="AirlineCompany_Code">@L("Code")</label>
+                <input class="form-control" id="AirlineCompany_Code" value="@Model.AirlineCompany.Code" type="text" name="code" required maxlength="@TDV.Flight.AirlineCompanyConsts.MaxCodeLength" minlength="@TDV.Flight.AirlineCompanyConsts.MinCodeLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="AirlineCompany_Name">@L("Name")</label>
+                <input class="form-control" id="AirlineCompany_Name" value="@Model.AirlineCompany.Name" type="text" name="name" required maxlength="@TDV.Flight.AirlineCompanyConsts.MaxNameLength" minlength="@TDV.Flight.AirlineCompanyConsts.MinNameLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="AirlineCompany_LadingPrefix">@L("LadingPrefix")</label>
+                <input class="form-control" id="AirlineCompany_LadingPrefix" value="@Model.AirlineCompany.LadingPrefix" type="text" name="ladingPrefix" required maxlength="@TDV.Flight.AirlineCompanyConsts.MaxLadingPrefixLength" minlength="@TDV.Flight.AirlineCompanyConsts.MinLadingPrefixLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="AirlineCompany_FlightPrefix">@L("FlightPrefix")</label>
+                <input class="form-control" id="AirlineCompany_FlightPrefix" value="@Model.AirlineCompany.FlightPrefix" type="text" name="flightPrefix" required maxlength="@TDV.Flight.AirlineCompanyConsts.MaxFlightPrefixLength" minlength="@TDV.Flight.AirlineCompanyConsts.MinFlightPrefixLength" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

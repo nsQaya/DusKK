@@ -1,0 +1,43 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FixedPriceDetails
+@model FixedPriceDetailViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="FixedPriceDetailInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Type") :</h6>
+                @L("Enum_PaymentMethodType_" + (int)Model.FixedPriceDetail.Type)
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("StartDate") :</h6>
+                @Model.FixedPriceDetail.StartDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("EndDate") :</h6>
+                @Model.FixedPriceDetail.EndDate
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("CurrencyType") :</h6>
+                @L("Enum_CurrencyType_" + (int)Model.FixedPriceDetail.CurrencyType)
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Price") :</h6>
+                @Model.FixedPriceDetail.Price
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("FixedPrice")) @L("Name") :</h6>
+                @Model.FixedPriceName
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

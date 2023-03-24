@@ -1,0 +1,38 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Currencies
+@model CurrencyViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="CurrencyInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Code") :</h6>
+                @Model.Currency.Code
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Symbol") :</h6>
+                @Model.Currency.Symbol
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("OrderNumber") :</h6>
+                @Model.Currency.OrderNumber
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("NumberCode") :</h6>
+                @Model.Currency.NumberCode
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("IsActive") :</h6>
+                @Model.Currency.IsActive
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

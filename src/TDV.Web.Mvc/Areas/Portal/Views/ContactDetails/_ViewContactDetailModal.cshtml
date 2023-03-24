@@ -1,0 +1,31 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.ContactDetails
+@model ContactDetailViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="ContactDetailInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Type") :</h6>
+                @L("Enum_ContactType_" + (int)Model.ContactDetail.Type)
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Value") :</h6>
+                @Model.ContactDetail.Value
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("Contact")) @L("IdentifyNo") :</h6>
+                @Model.ContactIdentifyNo
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

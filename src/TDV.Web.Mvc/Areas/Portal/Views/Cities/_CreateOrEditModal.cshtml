@@ -1,0 +1,51 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Cities
+@model CreateOrEditCityModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditCity")) : L("CreateNewCity")))
+
+<div class="modal-body">
+    <div id="CityInformationsTab">
+        <form name="CityInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.City.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="countryId">@L("Country")</label>
+                <div class="col-12">
+                    @Html.DropDownList("countryId", new SelectList(Model.CityCountryList,"Id","DisplayName", (Model.IsEditMode ? Model.City.CountryId.ToString() : "")),@L("SelectACountry"), new { @class = "form-select select2" , @required="required" })
+                </div>
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="City_Code">@L("Code")</label>
+                <input class="form-control" id="City_Code" value="@Model.City.Code" type="text" name="code" maxlength="@TDV.Location.CityConsts.MaxCodeLength" minlength="@TDV.Location.CityConsts.MinCodeLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="City_Name">@L("Name")</label>
+                <input class="form-control" id="City_Name" value="@Model.City.Name" type="text" name="name" required maxlength="@TDV.Location.CityConsts.MaxNameLength" minlength="@TDV.Location.CityConsts.MinNameLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="City_Order">@L("Order")</label>
+                <input class="form-control m-input" id="City_Order" value="@Model.City.Order.ToString(CultureInfo.InvariantCulture)" type="number" name="order" />
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="City_IsActive" name="isActive" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.City.IsActive ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsActive")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,44 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Regions
+@model CreateOrEditRegionModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditRegion")) : L("CreateNewRegion")))
+
+<div class="modal-body">
+    <div id="RegionInformationsTab">
+        <form name="RegionInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Region.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="fixedPriceId">@L("FixedPrice")</label>
+                @Html.DropDownList("fixedPriceId", new SelectList(Model.RegionFixedPriceList,"Id","DisplayName", (Model.IsEditMode ? Model.Region.FixedPriceId.ToString() : "")),@L("SelectAFixedPrice"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Region_Name">@L("Name")</label>
+                <input class="form-control" id="Region_Name" value="@Model.Region.Name" type="text" name="name" required maxlength="@TDV.Location.RegionConsts.MaxNameLength" minlength="@TDV.Location.RegionConsts.MinNameLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Region_Order">@L("Order")</label>
+                <input class="form-control m-input" id="Region_Order" value="@Model.Region.Order.ToString(CultureInfo.InvariantCulture)" type="number" name="order" />
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="Region_IsActive" name="isActive" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.Region.IsActive ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsActive")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

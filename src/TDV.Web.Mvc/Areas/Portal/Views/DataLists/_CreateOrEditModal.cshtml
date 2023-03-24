@@ -1,0 +1,49 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.DataLists
+@model CreateOrEditDataListModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditDataList")) : L("CreateNewDataList")))
+
+<div class="modal-body">
+    <div id="DataListInformationsTab">
+        <form name="DataListInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.DataList.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="DataList_Code">@L("Code")</label>
+                <input class="form-control" id="DataList_Code" value="@Model.DataList.Code" type="text" name="code" required maxlength="@TDV.Constants.DataListConsts.MaxCodeLength" minlength="@TDV.Constants.DataListConsts.MinCodeLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="DataList_Type">@L("Type")</label>
+                <input class="form-control" id="DataList_Type" value="@Model.DataList.Type" type="text" name="type" required maxlength="@TDV.Constants.DataListConsts.MaxTypeLength" minlength="@TDV.Constants.DataListConsts.MinTypeLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="DataList_Value">@L("Value")</label>
+                <input class="form-control" id="DataList_Value" value="@Model.DataList.Value" type="text" name="value" required maxlength="@TDV.Constants.DataListConsts.MaxValueLength" minlength="@TDV.Constants.DataListConsts.MinValueLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="DataList_OrderNumber">@L("OrderNumber")</label>
+                <input class="form-control m-input" id="DataList_OrderNumber" value="@Model.DataList.OrderNumber.ToString(CultureInfo.InvariantCulture)" type="number" name="orderNumber" />
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="DataList_IsActive" name="isActive" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.DataList.IsActive ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsActive")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

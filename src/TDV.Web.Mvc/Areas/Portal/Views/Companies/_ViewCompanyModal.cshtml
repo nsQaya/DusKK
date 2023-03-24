@@ -1,0 +1,75 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Companies
+@model CompanyViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="CompanyInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("IsActive") :</h6>
+                @Model.Company.IsActive
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Type") :</h6>
+                @L("Enum_CompanyType_" + (int)Model.Company.Type)
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("TaxAdministration") :</h6>
+                @Model.Company.TaxAdministration
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("TaxNo") :</h6>
+                @Model.Company.TaxNo
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Website") :</h6>
+                @Model.Company.Website
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Phone") :</h6>
+                @Model.Company.Phone
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Fax") :</h6>
+                @Model.Company.Fax
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Email") :</h6>
+                @Model.Company.Email
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Address") :</h6>
+                @Model.Company.Address
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("RunningCode") :</h6>
+                @Model.Company.RunningCode
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Prefix") :</h6>
+                @Model.Company.Prefix
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("OrganizationUnit")) @L("DisplayName") :</h6>
+                @Model.OrganizationUnitDisplayName
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("City")) @L("DisplayProperty") :</h6>
+                @Model.CityDisplayProperty
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Quarter")) @L("Name") :</h6>
+                @Model.QuarterName
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

@@ -1,0 +1,22 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Olcums
+@model OlcumViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="OlcumInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("OlcuTipi") :</h6>
+                @Model.Olcum.OlcuTipi
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

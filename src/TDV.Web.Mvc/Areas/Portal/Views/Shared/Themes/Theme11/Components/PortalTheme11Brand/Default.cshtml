@@ -1,0 +1,15 @@
+﻿@using TDV.Web.Areas.Portal.Models.Layout
+@using TDV.Web.Areas.Portal.Views.Shared.Components.PortalLogo
+@model HeaderViewModel
+@{
+    Layout = null;
+    var skin = @Model.LoginInformations.Theme.BaseSettings.Layout.DarkMode ? "dark" : "light";
+}
+
+<a href="@Url.Action("Index", "Home", new {area = string.Empty})" target="_blank" class="brand-logo">
+    @await Component.InvokeAsync(typeof(PortalLogoViewComponent), new
+    {
+        LogoSkin = skin,
+        logoClass = "theme-" + skin + "-show h-20px h-lg-30px"
+    })
+</a>

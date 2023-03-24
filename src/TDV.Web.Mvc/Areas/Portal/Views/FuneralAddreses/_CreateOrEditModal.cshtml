@@ -1,0 +1,68 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralAddreses
+@model CreateOrEditFuneralAddresModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFuneralAddres")) : L("CreateNewFuneralAddres")))
+
+<div class="modal-body">
+    <div id="FuneralAddresInformationsTab">
+        <form name="FuneralAddresInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.FuneralAddres.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralDisplayProperty">@L("Funeral")</label>
+                <div class="input-group">
+                    <input class="form-control" id="FuneralDisplayProperty" name="funeralDisplayProperty" value="@Model.FuneralDisplayProperty" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenFuneralLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearFuneralDisplayPropertyButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="FuneralAddres_FuneralId" value="@Model.FuneralAddres.FuneralId" type="text" name="funeralId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="FuneralAddres_FuneralId" value="" type="text" name="funeralId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="QuarterName">@L("Quarter")</label>
+                <div class="input-group">
+                    <input class="form-control" id="QuarterName" name="quarterName" value="@Model.QuarterName" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenQuarterLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearQuarterNameButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="FuneralAddres_QuarterId" value="@Model.FuneralAddres.QuarterId" type="text" name="quarterId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="FuneralAddres_QuarterId" value="" type="text" name="quarterId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralAddres_Description">@L("Description")</label>
+                <input class="form-control" id="FuneralAddres_Description" value="@Model.FuneralAddres.Description" type="text" name="description" maxlength="@TDV.Burial.FuneralAddresConsts.MaxDescriptionLength" minlength="@TDV.Burial.FuneralAddresConsts.MinDescriptionLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralAddres_Address">@L("Address")</label>
+                <input class="form-control" id="FuneralAddres_Address" value="@Model.FuneralAddres.Address" type="text" name="address" required />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

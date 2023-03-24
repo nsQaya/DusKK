@@ -1,0 +1,59 @@
+﻿@using TDV.Payment;
+@using TDV.Payment;
+
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FixedPriceDetails
+@model MasterDetailChild_FixedPrice_CreateOrEditFixedPriceDetailModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFixedPriceDetail")) : L("CreateNewFixedPriceDetail")))
+
+<div class="modal-body">
+    <div id="FixedPriceDetailInformationsTab">
+        <form name="FixedPriceDetailInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.FixedPriceDetail.Id" />
+            }
+
+            @{
+            var selectListType = Html.GetEnumSelectList(typeof(PaymentMethodType));
+            foreach (var selectOption in selectListType) { selectOption.Text = L("Enum_PaymentMethodType_" + selectOption.Value); }
+            }
+            <div class="my-3">
+                <label class="form-label" for="FixedPriceDetail_Type">@L("Type")</label>
+                <select class="form-select m-input m-input--square" name="type" id="FixedPriceDetail_Type" asp-for="@Model.FixedPriceDetail.Type" asp-items="@selectListType">
+                </select>
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FixedPriceDetail_StartDate">@L("StartDate")</label>
+                <input class="form-control m-input date-picker" id="FixedPriceDetail_StartDate" type="text" name="startDate" value="@Model.FixedPriceDetail.StartDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FixedPriceDetail_EndDate">@L("EndDate")</label>
+                <input class="form-control m-input date-picker" id="FixedPriceDetail_EndDate" type="text" name="endDate" value="@Model.FixedPriceDetail.EndDate" />
+            </div>
+
+            @{
+            var selectListCurrencyType = Html.GetEnumSelectList(typeof(CurrencyType));
+            foreach (var selectOption in selectListCurrencyType) { selectOption.Text = L("Enum_CurrencyType_" + selectOption.Value); }
+            }
+            <div class="my-3">
+                <label class="form-label" for="FixedPriceDetail_CurrencyType">@L("CurrencyType")</label>
+                <select class="form-select m-input m-input--square" name="currencyType" id="FixedPriceDetail_CurrencyType" asp-for="@Model.FixedPriceDetail.CurrencyType" asp-items="@selectListCurrencyType">
+                </select>
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FixedPriceDetail_Price">@L("Price")</label>
+                <input class="form-control m-input" id="FixedPriceDetail_Price" value="@Model.FixedPriceDetail.Price.ToString(CultureInfo.InvariantCulture)" type="number" name="price" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,90 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.FuneralTranportOrders
+@model CreateOrEditFuneralTranportOrderModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFuneralTranportOrder")) : L("CreateNewFuneralTranportOrder")))
+
+<div class="modal-body">
+    <div id="FuneralTranportOrderInformationsTab">
+        <form name="FuneralTranportOrderInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.FuneralTranportOrder.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralWorkOrderDetailDescription">@L("FuneralWorkOrderDetail")</label>
+                <div class="input-group">
+                    <input class="form-control" id="FuneralWorkOrderDetailDescription" name="funeralWorkOrderDetailDescription" value="@Model.FuneralWorkOrderDetailDescription" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenFuneralWorkOrderDetailLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearFuneralWorkOrderDetailDescriptionButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="FuneralTranportOrder_FuneralWorkOrderDetailId" value="@Model.FuneralTranportOrder.FuneralWorkOrderDetailId" type="text" name="funeralWorkOrderDetailId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="FuneralTranportOrder_FuneralWorkOrderDetailId" value="" type="text" name="funeralWorkOrderDetailId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_StartDate">@L("StartDate")</label>
+                <input class="form-control m-input date-picker" id="FuneralTranportOrder_StartDate" type="text" name="startDate" value="@Model.FuneralTranportOrder.StartDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_StartKM">@L("StartKM")</label>
+                <input class="form-control m-input" id="FuneralTranportOrder_StartKM" value="@Model.FuneralTranportOrder.StartKM?.ToString(CultureInfo.InvariantCulture)" type="number" name="startKM" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_OperationDate">@L("OperationDate")</label>
+                <input class="form-control m-input date-picker" id="FuneralTranportOrder_OperationDate" type="text" name="operationDate" value="@Model.FuneralTranportOrder.OperationDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_OperationKM">@L("OperationKM")</label>
+                <input class="form-control m-input" id="FuneralTranportOrder_OperationKM" value="@Model.FuneralTranportOrder.OperationKM?.ToString(CultureInfo.InvariantCulture)" type="number" name="operationKM" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_DeliveryDate">@L("DeliveryDate")</label>
+                <input class="form-control m-input date-picker" id="FuneralTranportOrder_DeliveryDate" type="text" name="deliveryDate" value="@Model.FuneralTranportOrder.DeliveryDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_DeliveryKM">@L("DeliveryKM")</label>
+                <input class="form-control m-input" id="FuneralTranportOrder_DeliveryKM" value="@Model.FuneralTranportOrder.DeliveryKM?.ToString(CultureInfo.InvariantCulture)" type="number" name="deliveryKM" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_EndDate">@L("EndDate")</label>
+                <input class="form-control m-input date-picker" id="FuneralTranportOrder_EndDate" type="text" name="endDate" value="@Model.FuneralTranportOrder.EndDate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_EndKM">@L("EndKM")</label>
+                <input class="form-control m-input" id="FuneralTranportOrder_EndKM" value="@Model.FuneralTranportOrder.EndKM?.ToString(CultureInfo.InvariantCulture)" type="number" name="endKM" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_ReceiverFullName">@L("ReceiverFullName")</label>
+                <input class="form-control" id="FuneralTranportOrder_ReceiverFullName" value="@Model.FuneralTranportOrder.ReceiverFullName" type="text" name="receiverFullName" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="FuneralTranportOrder_ReceiverKinshipDegree">@L("ReceiverKinshipDegree")</label>
+                <input class="form-control" id="FuneralTranportOrder_ReceiverKinshipDegree" value="@Model.FuneralTranportOrder.ReceiverKinshipDegree" type="text" name="receiverKinshipDegree" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

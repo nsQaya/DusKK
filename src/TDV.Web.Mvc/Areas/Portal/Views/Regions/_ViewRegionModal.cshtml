@@ -1,0 +1,35 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Regions
+@model RegionViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="RegionInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Name") :</h6>
+                @Model.Region.Name
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Order") :</h6>
+                @Model.Region.Order
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("IsActive") :</h6>
+                @Model.Region.IsActive
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("FixedPrice")) @L("Name") :</h6>
+                @Model.FixedPriceName
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

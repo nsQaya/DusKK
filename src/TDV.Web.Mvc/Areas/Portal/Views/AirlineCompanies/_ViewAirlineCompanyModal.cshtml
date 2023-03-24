@@ -1,0 +1,34 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.AirlineCompanies
+@model AirlineCompanyViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="AirlineCompanyInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Code") :</h6>
+                @Model.AirlineCompany.Code
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Name") :</h6>
+                @Model.AirlineCompany.Name
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("LadingPrefix") :</h6>
+                @Model.AirlineCompany.LadingPrefix
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("FlightPrefix") :</h6>
+                @Model.AirlineCompany.FlightPrefix
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

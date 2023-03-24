@@ -1,0 +1,94 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.CompanyTransactions
+@model CreateOrEditCompanyTransactionModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditCompanyTransaction")) : L("CreateNewCompanyTransaction")))
+
+<div class="modal-body">
+    <div id="CompanyTransactionInformationsTab">
+        <form name="CompanyTransactionInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.CompanyTransaction.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="companyId">@L("Company")</label>
+                @Html.DropDownList("companyId", new SelectList(Model.CompanyTransactionCompanyList,"Id","DisplayName", (Model.IsEditMode ? Model.CompanyTransaction.CompanyId.ToString() : "")),@L("SelectACompany"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="funeralId">@L("Funeral")</label>
+                @Html.DropDownList("funeralId", new SelectList(Model.CompanyTransactionFuneralList,"Id","DisplayName", (Model.IsEditMode ? Model.CompanyTransaction.FuneralId.ToString() : "")),@L("SelectAFuneral"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="type">@L("DataList")</label>
+                @Html.DropDownList("type", new SelectList(Model.CompanyTransactionDataListList,"Id","DisplayName", (Model.IsEditMode ? Model.CompanyTransaction.Type.ToString() : "")),@L("SelectADataList"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="currencyId">@L("Currency")</label>
+                @Html.DropDownList("currencyId", new SelectList(Model.CompanyTransactionCurrencyList,"Id","DisplayName", (Model.IsEditMode ? Model.CompanyTransaction.CurrencyId.ToString() : "")),@L("SelectACurrency"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="unitType">@L("DataList")</label>
+                @Html.DropDownList("unitType", new SelectList(Model.CompanyTransactionDataListList,"Id","DisplayName", (Model.IsEditMode ? Model.CompanyTransaction.UnitType.ToString() : "")),@L("SelectADataList"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyTransaction_InOut">@L("InOut")</label>
+                <input class="form-control" id="CompanyTransaction_InOut" value="@Model.CompanyTransaction.InOut" type="text" name="inOut" required maxlength="@TDV.Payment.CompanyTransactionConsts.MaxInOutLength" minlength="@TDV.Payment.CompanyTransactionConsts.MinInOutLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyTransaction_Date">@L("Date")</label>
+                <input class="form-control m-input date-picker" id="CompanyTransaction_Date" type="text" name="date" value="@Model.CompanyTransaction.Date" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyTransaction_No">@L("No")</label>
+                <input class="form-control" id="CompanyTransaction_No" value="@Model.CompanyTransaction.No" type="text" name="no" required maxlength="@TDV.Payment.CompanyTransactionConsts.MaxNoLength" minlength="@TDV.Payment.CompanyTransactionConsts.MinNoLength" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyTransaction_Description">@L("Description")</label>
+                <input class="form-control" id="CompanyTransaction_Description" value="@Model.CompanyTransaction.Description" type="text" name="description" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyTransaction_Amount">@L("Amount")</label>
+                <input class="form-control m-input" id="CompanyTransaction_Amount" value="@Model.CompanyTransaction.Amount.ToString(CultureInfo.InvariantCulture)" type="number" name="amount" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyTransaction_Price">@L("Price")</label>
+                <input class="form-control m-input" id="CompanyTransaction_Price" value="@Model.CompanyTransaction.Price.ToString(CultureInfo.InvariantCulture)" type="number" name="price" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyTransaction_TaxRate">@L("TaxRate")</label>
+                <input class="form-control m-input" id="CompanyTransaction_TaxRate" value="@Model.CompanyTransaction.TaxRate.ToString(CultureInfo.InvariantCulture)" type="number" name="taxRate" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="CompanyTransaction_Total">@L("Total")</label>
+                <input class="form-control m-input" id="CompanyTransaction_Total" value="@Model.CompanyTransaction.Total.ToString(CultureInfo.InvariantCulture)" type="number" name="total" />
+            </div>
+
+            <label class="form-check form-check-custom">
+                <input id="CompanyTransaction_IsTransferred" name="isTransferred" type="checkbox" class="form-check-input" value="true" @Html.Raw(Model.CompanyTransaction.IsTransferred ?"checked=\"checked\"":"") />
+                <span class="form-check-label">
+                    @L("IsTransferred")
+                </span>
+            </label>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

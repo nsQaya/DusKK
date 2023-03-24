@@ -1,0 +1,31 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.CompanyContacts
+@model CompanyContactViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="CompanyContactInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Title") :</h6>
+                @Model.CompanyContact.Title
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("Company")) @L("DisplayProperty") :</h6>
+                @Model.CompanyDisplayProperty
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Contact")) @L("Name") :</h6>
+                @Model.ContactName
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

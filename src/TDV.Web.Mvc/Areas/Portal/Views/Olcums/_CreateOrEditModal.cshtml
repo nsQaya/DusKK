@@ -1,0 +1,27 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Olcums
+@model CreateOrEditOlcumModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditOlcum")) : L("CreateNewOlcum")))
+
+<div class="modal-body">
+    <div id="OlcumInformationsTab">
+        <form name="OlcumInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Olcum.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="Olcum_OlcuTipi">@L("OlcuTipi")</label>
+                <input class="form-control" id="Olcum_OlcuTipi" value="@Model.Olcum.OlcuTipi" type="text" name="olcuTipi" required />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
