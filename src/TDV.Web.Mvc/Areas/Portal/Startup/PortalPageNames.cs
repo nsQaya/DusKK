@@ -4,6 +4,9 @@
     {
         public static class Common
         {
+            public const string Taleps = "Rapor.Taleps";
+            public const string StokOlcus = "Kalite.StokOlcus";
+            public const string Stoks = "Kalite.Stoks";
             public const string Olcums = "Kalite.Olcums";
             public const string CompanyTransactions = "Payment.CompanyTransactions";
             public const string Currencies = "Constants.Currencies";

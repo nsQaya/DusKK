@@ -1,0 +1,39 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Taleps
+@model TalepViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="TalepInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("TalepMiktar") :</h6>
+                @Model.Talep.TalepMiktar
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("OlcuBr") :</h6>
+                @Model.Talep.OlcuBr
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Fiyat") :</h6>
+                @Model.Talep.Fiyat
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Tutar") :</h6>
+                @Model.Talep.Tutar
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("Stok")) @L("Adi") :</h6>
+                @Model.StokAdi
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

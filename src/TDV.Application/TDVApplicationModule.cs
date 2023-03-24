@@ -14,9 +14,11 @@ using TDV.Communication.Mapper;
 using TDV.Constants.Mapper;
 using TDV.Corporation.Mapper;
 using TDV.Integration;
+using TDV.Kalite.Mapper;
 using TDV.Location.Mapper;
 using TDV.Payment;
 using TDV.Payment.Mapper;
+using TDV.Rapor.Exporting.Mapper;
 
 namespace TDV
 {
@@ -72,6 +74,11 @@ namespace TDV
                     typeof(DataListMapper),
                     typeof(CurrenciesMapper),
                     typeof(CompanyTransactionsMapper),
+                    typeof(OlcumsMapper),
+                    typeof(StoksMapper),
+                    typeof(StoksOlcumMapper),
+                    typeof(TalepsMapper),
+
                 };
 
                 var createMappingArgs = new object[] { conf };

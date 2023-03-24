@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TDV.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using TDV.EntityFrameworkCore;
 namespace TDV.Migrations
 {
     [DbContext(typeof(TDVDbContext))]
-    partial class TDVDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230324065649_Added_Stok")]
+    partial class Added_Stok
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2831,38 +2833,6 @@ namespace TDV.Migrations
                     b.ToTable("Stoks");
                 });
 
-            modelBuilder.Entity("TDV.Kalite.StokOlcu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal>("Alt")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Deger")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OlcumId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StokId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Ust")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OlcumId");
-
-                    b.HasIndex("StokId");
-
-                    b.ToTable("StokOlcus");
-                });
-
             modelBuilder.Entity("TDV.Location.City", b =>
                 {
                     b.Property<int>("Id")
@@ -3632,36 +3602,6 @@ namespace TDV.Migrations
                     b.ToTable("FixedPriceDetails");
                 });
 
-            modelBuilder.Entity("TDV.Rapor.Talep", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal>("Fiyat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("OlcuBr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StokId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TalepMiktar")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Tutar")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StokId");
-
-                    b.ToTable("Taleps");
-                });
-
             modelBuilder.Entity("TDV.Storage.BinaryObject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4197,25 +4137,6 @@ namespace TDV.Migrations
                     b.Navigation("RegionFk");
                 });
 
-            modelBuilder.Entity("TDV.Kalite.StokOlcu", b =>
-                {
-                    b.HasOne("TDV.Kalite.Olcum", "OlcumFk")
-                        .WithMany()
-                        .HasForeignKey("OlcumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TDV.Kalite.Stok", "StokFk")
-                        .WithMany()
-                        .HasForeignKey("StokId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OlcumFk");
-
-                    b.Navigation("StokFk");
-                });
-
             modelBuilder.Entity("TDV.Location.City", b =>
                 {
                     b.HasOne("TDV.Location.Country", "CountryFk")
@@ -4375,17 +4296,6 @@ namespace TDV.Migrations
                         .HasForeignKey("FixedPriceId");
 
                     b.Navigation("FixedPriceFk");
-                });
-
-            modelBuilder.Entity("TDV.Rapor.Talep", b =>
-                {
-                    b.HasOne("TDV.Kalite.Stok", "StokFk")
-                        .WithMany()
-                        .HasForeignKey("StokId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("StokFk");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>

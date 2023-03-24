@@ -1,0 +1,47 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Taleps
+@model CreateOrEditTalepModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTalep")) : L("CreateNewTalep")))
+
+<div class="modal-body">
+    <div id="TalepInformationsTab">
+        <form name="TalepInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Talep.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="stokId">@L("Stok")</label>
+                @Html.DropDownList("stokId", new SelectList(Model.TalepStokList,"Id","DisplayName", (Model.IsEditMode ? Model.Talep.StokId.ToString() : "")),@L("SelectAStok"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Talep_TalepMiktar">@L("TalepMiktar")</label>
+                <input class="form-control m-input" id="Talep_TalepMiktar" value="@Model.Talep.TalepMiktar.ToString(CultureInfo.InvariantCulture)" type="number" name="talepMiktar" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Talep_OlcuBr">@L("OlcuBr")</label>
+                <input class="form-control" id="Talep_OlcuBr" value="@Model.Talep.OlcuBr" type="text" name="olcuBr" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Talep_Fiyat">@L("Fiyat")</label>
+                <input class="form-control m-input" id="Talep_Fiyat" value="@Model.Talep.Fiyat.ToString(CultureInfo.InvariantCulture)" type="number" name="fiyat" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Talep_Tutar">@L("Tutar")</label>
+                <input class="form-control m-input" id="Talep_Tutar" value="@Model.Talep.Tutar.ToString(CultureInfo.InvariantCulture)" type="number" name="tutar" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

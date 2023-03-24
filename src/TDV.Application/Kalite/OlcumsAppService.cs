@@ -15,6 +15,7 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using TDV.Storage;
+using TDV.Payment.Dtos;
 
 namespace TDV.Kalite
 {
@@ -42,37 +43,17 @@ namespace TDV.Kalite
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
-            var olcums = from o in pagedAndFilteredOlcums
-                         select new
-                         {
-
-                             o.OlcuTipi,
-                             Id = o.Id
-                         };
 
             var totalCount = await filteredOlcums.CountAsync();
 
-            var dbList = await olcums.ToListAsync();
-            var results = new List<GetOlcumForViewDto>();
+            var dbList = await pagedAndFilteredOlcums.ToListAsync();
+    
 
-            foreach (var o in dbList)
-            {
-                var res = new GetOlcumForViewDto()
-                {
-                    Olcum = new OlcumDto
-                    {
-
-                        OlcuTipi = o.OlcuTipi,
-                        Id = o.Id,
-                    }
-                };
-
-                results.Add(res);
-            }
+            
 
             return new PagedResultDto<GetOlcumForViewDto>(
                 totalCount,
-                results
+                ObjectMapper.Map<List<GetOlcumForViewDto>>(dbList)
             );
 
         }

@@ -1,0 +1,60 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.StokOlcus
+@model CreateOrEditStokOlcuModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditStokOlcu")) : L("CreateNewStokOlcu")))
+
+<div class="modal-body">
+    <div id="StokOlcuInformationsTab">
+        <form name="StokOlcuInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.StokOlcu.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="StokAdi">@L("Stok")</label>
+                <div class="input-group">
+                    <input class="form-control" id="StokAdi" name="stokAdi" value="@Model.StokAdi" type="text" disabled>
+                    <button class="btn btn-primary blue" id="OpenStokLookupTableButton" type="button"><i class="fa fa-search"></i> @L("Pick")</button>
+                    <button class="btn btn-danger btn-icon" type="button" id="ClearStokAdiButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+
+            @if (Model.IsEditMode)
+            {
+            <input class="form-control" id="StokOlcu_StokId" value="@Model.StokOlcu.StokId" type="text" name="stokId" required hidden />
+            }
+            else
+            {
+            <input class="form-control" id="StokOlcu_StokId" value="" type="text" name="stokId" required hidden />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="olcumId">@L("Olcum")</label>
+                @Html.DropDownList("olcumId", new SelectList(Model.StokOlcuOlcumList,"Id","DisplayName", (Model.IsEditMode ? Model.StokOlcu.OlcumId.ToString() : "")),@L("SelectAOlcum"), new { @class = "form-control" , @required="required" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="StokOlcu_Alt">@L("Alt")</label>
+                <input class="form-control m-input" id="StokOlcu_Alt" value="@Model.StokOlcu.Alt.ToString(CultureInfo.InvariantCulture)" type="number" name="alt" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="StokOlcu_Ust">@L("Ust")</label>
+                <input class="form-control m-input" id="StokOlcu_Ust" value="@Model.StokOlcu.Ust.ToString(CultureInfo.InvariantCulture)" type="number" name="ust" />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="StokOlcu_Deger">@L("Deger")</label>
+                <input class="form-control" id="StokOlcu_Deger" value="@Model.StokOlcu.Deger" type="text" name="deger" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

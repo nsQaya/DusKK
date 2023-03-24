@@ -1,0 +1,39 @@
+﻿
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.StokOlcus
+@model StokOlcuViewModel
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Details")))
+
+<div class="modal-body">
+    <div id="StokOlcuInformationsTab">
+
+        <div class="row">
+            <div class="col-6 mb-3">
+                <h6>@L("Alt") :</h6>
+                @Model.StokOlcu.Alt
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Ust") :</h6>
+                @Model.StokOlcu.Ust
+            </div>
+            <div class="col-6 mb-3">
+                <h6>@L("Deger") :</h6>
+                @Model.StokOlcu.Deger
+            </div>
+
+            <div class="col-6 mb-3">
+                <h6>(@L("Stok")) @L("Adi") :</h6>
+                @Model.StokAdi
+            </div>
+            <div class="col-6 mb-3">
+                <h6>(@L("Olcum")) @L("OlcuTipi") :</h6>
+                @Model.OlcumOlcuTipi
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithClose.cshtml")

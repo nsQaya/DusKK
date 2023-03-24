@@ -1,0 +1,32 @@
+﻿
+@using System.Globalization
+@using TDV.Web.Areas.Portal.Models.Common.Modals
+@using TDV.Web.Areas.Portal.Models.Stoks
+@model CreateOrEditStokModalViewModel
+@using Abp.Extensions
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditStok")) : L("CreateNewStok")))
+
+<div class="modal-body">
+    <div id="StokInformationsTab">
+        <form name="StokInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="id" value="@Model.Stok.Id" />
+            }
+
+            <div class="my-3">
+                <label class="form-label" for="Stok_Kodu">@L("Kodu")</label>
+                <input class="form-control" id="Stok_Kodu" value="@Model.Stok.Kodu" type="text" name="kodu" required />
+            </div>
+
+            <div class="my-3">
+                <label class="form-label" for="Stok_Adi">@L("Adi")</label>
+                <input class="form-control" id="Stok_Adi" value="@Model.Stok.Adi" type="text" name="adi" required />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/Portal/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

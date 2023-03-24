@@ -30,6 +30,21 @@ namespace TDV.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var taleps = pages.CreateChildPermission(AppPermissions.Pages_Taleps, L("Taleps"));
+            taleps.CreateChildPermission(AppPermissions.Pages_Taleps_Create, L("CreateNewTalep"));
+            taleps.CreateChildPermission(AppPermissions.Pages_Taleps_Edit, L("EditTalep"));
+            taleps.CreateChildPermission(AppPermissions.Pages_Taleps_Delete, L("DeleteTalep"));
+
+            var stokOlcus = pages.CreateChildPermission(AppPermissions.Pages_StokOlcus, L("StokOlcus"));
+            stokOlcus.CreateChildPermission(AppPermissions.Pages_StokOlcus_Create, L("CreateNewStokOlcu"));
+            stokOlcus.CreateChildPermission(AppPermissions.Pages_StokOlcus_Edit, L("EditStokOlcu"));
+            stokOlcus.CreateChildPermission(AppPermissions.Pages_StokOlcus_Delete, L("DeleteStokOlcu"));
+
+            var stoks = pages.CreateChildPermission(AppPermissions.Pages_Stoks, L("Stoks"));
+            stoks.CreateChildPermission(AppPermissions.Pages_Stoks_Create, L("CreateNewStok"));
+            stoks.CreateChildPermission(AppPermissions.Pages_Stoks_Edit, L("EditStok"));
+            stoks.CreateChildPermission(AppPermissions.Pages_Stoks_Delete, L("DeleteStok"));
+
             var olcums = pages.CreateChildPermission(AppPermissions.Pages_Olcums, L("Olcums"));
             olcums.CreateChildPermission(AppPermissions.Pages_Olcums_Create, L("CreateNewOlcum"));
             olcums.CreateChildPermission(AppPermissions.Pages_Olcums_Edit, L("EditOlcum"));

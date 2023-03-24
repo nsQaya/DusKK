@@ -23,6 +23,30 @@ namespace TDV.Web.Areas.Portal.Startup
                     )
                 )
                 .AddItem(new MenuItemDefinition(
+                        PortalPageNames.Common.Taleps,
+                        L("Taleps"),
+                        url: "Portal/Taleps",
+                        icon: "flaticon-more",
+                        permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Taleps)
+                    )
+                )
+                .AddItem(new MenuItemDefinition(
+                        PortalPageNames.Common.StokOlcus,
+                        L("StokOlcus"),
+                        url: "Portal/StokOlcus",
+                        icon: "flaticon-more",
+                        permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_StokOlcus)
+                    )
+                )
+                .AddItem(new MenuItemDefinition(
+                        PortalPageNames.Common.Stoks,
+                        L("Stoks"),
+                        url: "Portal/Stoks",
+                        icon: "flaticon-more",
+                        permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Stoks)
+                    )
+                )
+                .AddItem(new MenuItemDefinition(
                         PortalPageNames.Common.Olcums,
                         L("Olcums"),
                         url: "Portal/Olcums",

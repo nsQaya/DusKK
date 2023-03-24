@@ -1,6 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-	<texts>    <text name="Kalite">Kalite</text>
+	<texts>    <text name="Rapor">Rapor</text>
+    <text name="Talep">Talep</text>
+    <text name="TDV.Rapor.Talep">Talep</text>
+    <text name="TalepMiktar">Talep miktar</text>
+    <text name="OlcuBr">Olcu br</text>
+    <text name="Fiyat">Fiyat</text>
+    <text name="Tutar">Tutar</text>
+    <text name="TalepsHeaderInfo">Taleps header ınfo</text>
+    <text name="CreateNewTalep">Create new talep</text>
+    <text name="EditTalep">Edit talep</text>
+    <text name="DeleteTalep">Delete talep</text>
+    <text name="Taleps">Taleps</text>
+    <text name="SelectAStok">Select a stok</text>
+    <text name="StokOlcu">Stok olcu</text>
+    <text name="TDV.Kalite.StokOlcu">StokOlcu</text>
+    <text name="Alt">Alt</text>
+    <text name="Ust">Ust</text>
+    <text name="Deger">Deger</text>
+    <text name="StokOlcusHeaderInfo">Stok olcus header ınfo</text>
+    <text name="CreateNewStokOlcu">Create new stok olcu</text>
+    <text name="EditStokOlcu">Edit stok olcu</text>
+    <text name="DeleteStokOlcu">Delete stok olcu</text>
+    <text name="StokOlcus">Stok olcus</text>
+    <text name="StokAdi">Stok adi</text>
+    <text name="PickStok">Pick stok</text>
+    <text name="OlcumOlcuTipi">Olcum olcu tipi</text>
+    <text name="PickOlcum">Pick olcum</text>
+    <text name="SelectAOlcum">Select a olcum</text>
+    <text name="Stok">Stok</text>
+    <text name="TDV.Kalite.Stok">Stok</text>
+    <text name="Kodu">Kodu</text>
+    <text name="Adi">Adi</text>
+    <text name="StoksHeaderInfo">Stoks header ınfo</text>
+    <text name="CreateNewStok">Create new stok</text>
+    <text name="EditStok">Edit stok</text>
+    <text name="DeleteStok">Delete stok</text>
+    <text name="Stoks">Stoks</text>
+    <text name="Kalite">Kalite</text>
     <text name="Olcum">Olcum</text>
     <text name="TDV.Kalite.Olcum">Olcum</text>
     <text name="OlcuTipi">Olcu tipi</text>

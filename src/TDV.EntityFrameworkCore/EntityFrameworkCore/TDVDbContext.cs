@@ -1,4 +1,5 @@
-﻿using TDV.Kalite;
+﻿using TDV.Rapor;
+using TDV.Kalite;
 using TDV.Constants;
 using TDV.Corporation;
 using TDV.Authorization;
@@ -23,6 +24,12 @@ namespace TDV.EntityFrameworkCore
 {
     public class TDVDbContext : AbpZeroDbContext<Tenant, Role, User, TDVDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Talep> Taleps { get; set; }
+
+        public virtual DbSet<StokOlcu> StokOlcus { get; set; }
+
+        public virtual DbSet<Stok> Stoks { get; set; }
+
         public virtual DbSet<Olcum> Olcums { get; set; }
 
         public virtual DbSet<CompanyTransaction> CompanyTransactions { get; set; }

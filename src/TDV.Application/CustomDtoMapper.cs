@@ -1,4 +1,6 @@
-﻿using TDV.Kalite.Dtos;
+﻿using TDV.Rapor.Dtos;
+using TDV.Rapor;
+using TDV.Kalite.Dtos;
 using TDV.Kalite;
 using TDV.Constants.Dtos;
 using TDV.Constants;
@@ -68,6 +70,12 @@ namespace TDV
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditTalepDto, Talep>().ReverseMap();
+            configuration.CreateMap<TalepDto, Talep>().ReverseMap();
+            configuration.CreateMap<CreateOrEditStokOlcuDto, StokOlcu>().ReverseMap();
+            configuration.CreateMap<StokOlcuDto, StokOlcu>().ReverseMap();
+            configuration.CreateMap<CreateOrEditStokDto, Stok>().ReverseMap();
+            configuration.CreateMap<StokDto, Stok>().ReverseMap();
             configuration.CreateMap<CreateOrEditOlcumDto, Olcum>().ReverseMap();
             configuration.CreateMap<OlcumDto, Olcum>().ReverseMap();
             //Inputs
